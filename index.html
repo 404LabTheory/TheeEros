@@ -289,7 +289,7 @@
     }
 
     .input-group {
-      display: flex;
+      display: flex !important;
       gap: 8px;
       align-items: center;
     }
@@ -306,6 +306,8 @@
       border-radius: 2px;
       resize: none;
       min-height: 40px;
+      display: block !important;
+      visibility: visible !important;
     }
 
     .input-group input[type="text"]:focus,
@@ -313,6 +315,34 @@
       outline: 2px solid var(--gold);
       outline-offset: 0;
       background: white;
+    }
+
+    #userInput {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    #sendBtn {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    #inputContainer {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    .chat-input-area {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
 
     .pills-container {
@@ -688,13 +718,13 @@
         </div>
         <div class="chat-messages" id="chatMessages">
         </div>
-        <div class="chat-input-area" style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="chat-input-area">
           <div id="disclaimerContainer"></div>
-          <div id="inputContainer" style="display: flex; flex-direction: column; gap: 8px;">
+          <div id="inputContainer">
             <div id="pillsContainer" class="pills-container" style="display: none;"></div>
-            <div class="input-group" style="display: flex; gap: 8px;">
-              <input type="text" id="userInput" placeholder="Type 'start' to begin assessment..." style="flex: 1; padding: 10px 12px; border: 1px solid var(--border-light); background: white; font-size: 14px; border-radius: 2px;">
-              <button class="btn btn-primary" id="sendBtn" style="padding: 10px 16px;">Send</button>
+            <div class="input-group">
+              <input type="text" id="userInput" placeholder="Type 'start' to begin assessment...">
+              <button class="btn btn-primary" id="sendBtn">Send</button>
             </div>
           </div>
         </div>
@@ -796,6 +826,25 @@
       cancelEmailBtn: document.getElementById('cancelEmailBtn'),
       emailStatus: document.getElementById('emailStatus'),
     };
+
+    // ====== SAFETY: ENSURE TEXTBOX ALWAYS VISIBLE ======
+    function ensureInputVisible() {
+      // Force textbox to always be visible
+      DOM.inputContainer.style.display = 'flex';
+      DOM.inputContainer.style.visibility = 'visible';
+      DOM.inputContainer.style.opacity = '1';
+      
+      DOM.userInput.style.display = 'block';
+      DOM.userInput.style.visibility = 'visible';
+      DOM.userInput.style.opacity = '1';
+      
+      DOM.sendBtn.style.display = 'block';
+      DOM.sendBtn.style.visibility = 'visible';
+      DOM.sendBtn.style.opacity = '1';
+    }
+
+    // Run safety check every 500ms
+    setInterval(ensureInputVisible, 500);
 
     // ====== EMAIL TRANSCRIPT ======
     function compileTranscript() {
@@ -1369,7 +1418,9 @@
         addBotMessage('Assessment complete!');
       }
 
-      DOM.inputContainer.style.display = 'none';
+      // Keep input visible but disabled for now
+      DOM.userInput.disabled = true;
+      DOM.sendBtn.disabled = true;
       saveToLocalStorage();
     }
 
@@ -1382,7 +1433,8 @@
         currentScoring = null;
         localStorage.removeItem(config.storage.storageKey);
         DOM.chatMessages.innerHTML = '';
-        DOM.inputContainer.style.display = 'none';
+        DOM.userInput.disabled = false;
+        DOM.sendBtn.disabled = false;
         updateScoreboard();
         addBotMessage(`Welcome back to the ${config.app.name}!`);
         addBotMessage(`Type "start" to begin a new assessment.`);
