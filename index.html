@@ -728,11 +728,27 @@
         <div class="controls">
           <button class="btn btn-danger" id="resetBtn" style="flex: 1;">Reset</button>
           <button class="btn" id="exportBtn" style="flex: 1;">Export</button>
+          <button class="btn" id="emailBtn" style="flex: 1;">Email</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Email Modal -->
+  <div id="emailModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+    <div style="background: var(--paper); padding: 30px; border-radius: 4px; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); border: 1px solid var(--border-light);">
+      <h3 style="color: var(--purple); margin-bottom: 16px; font-family: Georgia, serif;">Send Transcript to Email</h3>
+      <p style="color: var(--text-light); font-size: 12px; margin-bottom: 16px;">Your assessment responses and archetype result will be sent to this email address.</p>
+      <input type="email" id="emailInput" placeholder="your@email.com" style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 2px; margin-bottom: 12px; font-size: 14px;">
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-primary" id="sendEmailBtn" style="flex: 1;">Send</button>
+        <button class="btn" id="cancelEmailBtn" style="flex: 1;">Cancel</button>
+      </div>
+      <div id="emailStatus" style="margin-top: 12px; font-size: 12px; text-align: center; color: var(--text-light);"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     const CONFIG_URL = './data/config.json';
     const INSTRUMENT_URL = './data/instrument.v1.json';
@@ -758,6 +774,7 @@
       disclaimerContainer: document.getElementById('disclaimerContainer'),
       resetBtn: document.getElementById('resetBtn'),
       exportBtn: document.getElementById('exportBtn'),
+      emailBtn: document.getElementById('emailBtn'),
       archetypeName: document.getElementById('archetypeName'),
       archetypeSubtitle: document.getElementById('archetypeSubtitle'),
       confidenceFill: document.getElementById('confidenceFill'),
@@ -768,7 +785,97 @@
       healthCheckContainer: document.getElementById('healthCheckContainer'),
       healthCheckItems: document.getElementById('healthCheckItems'),
       baseUrl: document.getElementById('baseUrl'),
+      emailModal: document.getElementById('emailModal'),
+      emailInput: document.getElementById('emailInput'),
+      sendEmailBtn: document.getElementById('sendEmailBtn'),
+      cancelEmailBtn: document.getElementById('cancelEmailBtn'),
+      emailStatus: document.getElementById('emailStatus'),
     };
+
+    // ====== EMAIL TRANSCRIPT ======
+    function compileTranscript() {
+      const finalScoring = calculateScoring();
+      const archetype = finalScoring ? (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype) : null;
+      const timestamp = new Date().toLocaleString();
+      
+      let transcript = `Eros Index Assessment - Transcript\n`;
+      transcript += `Generated: ${timestamp}\n\n`;
+      
+      if (archetype && finalScoring) {
+        transcript += `RESULTS:\n`;
+        transcript += `Archetype: ${archetype.name}\n`;
+        transcript += `Description: ${archetype.description}\n`;
+        transcript += `Confidence: ${Math.round(finalScoring.confidence * 100)}%\n\n`;
+        
+        transcript += `Subfactor Scores:\n`;
+        for (const [key, value] of Object.entries(finalScoring.normalized)) {
+          transcript += `  ${key}: ${Math.round(value)}/100\n`;
+        }
+        transcript += `\n`;
+      }
+      
+      transcript += `RESPONSES:\n`;
+      for (const [itemId, value] of Object.entries(responses)) {
+        const item = instrument.items.find(i => i.id === itemId);
+        if (item) {
+          transcript += `Q: ${item.question}\n`;
+          transcript += `A: ${value}\n\n`;
+        }
+      }
+      
+      return transcript;
+    }
+
+    function showEmailModal() {
+      DOM.emailModal.style.display = 'flex';
+      DOM.emailInput.focus();
+      DOM.emailStatus.textContent = '';
+      DOM.emailInput.value = '';
+    }
+
+    function hideEmailModal() {
+      DOM.emailModal.style.display = 'none';
+    }
+
+    async function sendTranscriptEmail() {
+      const email = DOM.emailInput.value.trim();
+      if (!email || !email.includes('@')) {
+        DOM.emailStatus.textContent = '❌ Please enter a valid email';
+        DOM.emailStatus.style.color = 'var(--red)';
+        return;
+      }
+
+      DOM.emailStatus.textContent = '📧 Sending...';
+      DOM.emailStatus.style.color = 'var(--text-light)';
+      DOM.sendEmailBtn.disabled = true;
+
+      try {
+        const transcript = compileTranscript();
+        const finalScoring = calculateScoring();
+        const archetype = finalScoring ? (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype) : null;
+
+        // Using EmailJS - requires public key setup
+        // For now, create downloadable email-ready format
+        const subject = `Eros Index Results - ${archetype?.name || 'Assessment'} Archetype`;
+        const body = encodeURIComponent(transcript);
+        
+        // Fallback: Open email client
+        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${body}`;
+        window.location.href = mailtoLink;
+
+        DOM.emailStatus.textContent = '✓ Opening email client...';
+        DOM.emailStatus.style.color = '#2d7a2d';
+        
+        setTimeout(() => {
+          hideEmailModal();
+        }, 1500);
+      } catch (error) {
+        DOM.emailStatus.textContent = '❌ Error: ' + error.message;
+        DOM.emailStatus.style.color = 'var(--red)';
+      } finally {
+        DOM.sendEmailBtn.disabled = false;
+      }
+    }
 
     // ====== HEALTH CHECK ======
     async function runHealthCheck() {
@@ -897,6 +1004,19 @@
       });
       DOM.resetBtn.addEventListener('click', handleReset);
       DOM.exportBtn.addEventListener('click', handleExport);
+      DOM.emailBtn.addEventListener('click', showEmailModal);
+      DOM.sendEmailBtn.addEventListener('click', sendTranscriptEmail);
+      DOM.cancelEmailBtn.addEventListener('click', hideEmailModal);
+      
+      // Close modal on outside click
+      DOM.emailModal.addEventListener('click', (e) => {
+        if (e.target === DOM.emailModal) hideEmailModal();
+      });
+      
+      // Allow Enter key to send email
+      DOM.emailInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendTranscriptEmail();
+      });
 
       addBotMessage(`Welcome to the ${config.app.name}.`);
       addBotMessage(`I'm here to guide you through a psychological assessment exploring romantic archetypes.`);
