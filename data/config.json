@@ -1,7 +1,47 @@
 {
-  "activeInstrument": "instrument.v1.json",
-  "activePrototypes": "prototypes.v1.json",
-  "maxBaseItems": 69,
-  "enableFollowups": true,
-  "confidenceSeparationDenominator": 18
+  "app": {
+    "name": "Eros Index Chatbot",
+    "version": "v1.0",
+    "environment": "production",
+    "debug": false
+  },
+
+  "data": {
+    "instrument": "instrument.v1.json",
+    "prototypes": "prototypes.v1.json"
+  },
+
+  "assessment": {
+    "maxBaseItems": 69,
+    "enableFollowups": true,
+    "confidenceSeparationDenominator": 18,
+    "resumeFromLocalStorage": true,
+    "allowPartialCompletion": true
+  },
+
+  "scoring": {
+    "method": "prototype_distance",
+    "distanceMetric": "mean_absolute_error",
+    "weights": "uniform",
+    "normalizeWithinPerson": true
+  },
+
+  "ui": {
+    "tone": "neutral_academic",
+    "showArchetypePreview": true,
+    "showConfidenceMeter": true,
+    "showLiveSubfactorSnapshot": true,
+    "allowJsonExport": true,
+    "startKeyword": "start"
+  },
+
+  "storage": {
+    "useLocalStorage": true,
+    "storageKey": "eros_index_chat_v1"
+  },
+
+  "ethics": {
+    "showDisclaimer": true,
+    "disclaimerText": "This assessment is for research and self-reflection purposes only. It is not a clinical or diagnostic tool."
+  }
 }
