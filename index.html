@@ -983,7 +983,7 @@
     }
 
     function extractBaseItems() {
-      baseItems = (instrument.items || []).filter(item => !item.isFollowup);
+      baseItems = instrument.items || [];
     }
 
     async function initializeApp() {
@@ -1108,7 +1108,7 @@
     }
 
     function displayCurrentQuestion() {
-      const allItems = [...baseItems, ...followupQueue.map(fqId => instrument.items.find(i => i.id === fqId))];
+      const allItems = [...baseItems, ...followupQueue.map(fqId => (instrument.followups || []).find(i => i.id === fqId))];
       const currentItem = allItems[currentItemIndex];
 
       if (!currentItem) {
@@ -1181,7 +1181,7 @@
     }
 
     function handleSend() {
-      const allItems = [...baseItems, ...followupQueue.map(fqId => instrument.items.find(i => i.id === fqId))];
+      const allItems = [...baseItems, ...followupQueue.map(fqId => (instrument.followups || []).find(i => i.id === fqId))];
       const currentItem = allItems[currentItemIndex];
 
       if (!currentItem) return;
@@ -1233,19 +1233,19 @@
 
       const norms = scoring.normalized;
 
-      if (norms.ABD > 70 && !followupQueue.includes('FU_ABD_1') && instrument.items.find(i => i.id === 'FU_ABD_1')) {
+      if (norms.ABD > 70 && !followupQueue.includes('FU_ABD_1') && (instrument.followups || []).find(i => i.id === 'FU_ABD_1')) {
         followupQueue.push('FU_ABD_1');
       }
-      if (norms.ENG > 70 && !followupQueue.includes('FU_ENG_1') && instrument.items.find(i => i.id === 'FU_ENG_1')) {
+      if (norms.ENG > 70 && !followupQueue.includes('FU_ENG_1') && (instrument.followups || []).find(i => i.id === 'FU_ENG_1')) {
         followupQueue.push('FU_ENG_1');
       }
-      if (norms.CONTROL > 65 && !followupQueue.includes('FU_CTRL_1') && instrument.items.find(i => i.id === 'FU_CTRL_1')) {
+      if (norms.CONTROL > 65 && !followupQueue.includes('FU_CTRL_1') && (instrument.followups || []).find(i => i.id === 'FU_CTRL_1')) {
         followupQueue.push('FU_CTRL_1');
       }
-      if (norms.ERASE > 65 && !followupQueue.includes('FU_ERASE_1') && instrument.items.find(i => i.id === 'FU_ERASE_1')) {
+      if (norms.ERASE > 65 && !followupQueue.includes('FU_ERASE_1') && (instrument.followups || []).find(i => i.id === 'FU_ERASE_1')) {
         followupQueue.push('FU_ERASE_1');
       }
-      if (norms.FLIGHT > 75 && !followupQueue.includes('FU_FLIGHT_1') && instrument.items.find(i => i.id === 'FU_FLIGHT_1')) {
+      if (norms.FLIGHT > 75 && !followupQueue.includes('FU_FLIGHT_1') && (instrument.followups || []).find(i => i.id === 'FU_FLIGHT_1')) {
         followupQueue.push('FU_FLIGHT_1');
       }
     }
