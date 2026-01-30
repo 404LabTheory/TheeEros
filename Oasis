@@ -1,0 +1,22 @@
+# Eros Index — Free Chatbot (No API)
+
+A free static website that behaves like an embedded AI chatbot:
+- Asks the Eros Index questions (Likert + text)
+- Uses smart follow-ups (branching)
+- Scores subfactors and returns an archetype + confidence
+- Stores progress in LocalStorage
+- Exports responses as JSON
+
+## Deploy (GitHub Pages)
+1. Go to **Settings → Pages**
+2. Source: **Deploy from a branch**
+3. Branch: **main**
+4. Folder: **/(root)**
+5. Save
+
+Your site will be available at:
+`https://YOUR-USERNAME.github.io/eros-index-chatbot/`
+
+## Notes
+- No backend, no database, no API costs.
+- Prototype scoring is heuristic and can later be replaced with LPA centroids from dissertation data.
