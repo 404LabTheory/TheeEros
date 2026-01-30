@@ -23,7 +23,7 @@ async function loadData() {
 }
 
 /* =======================
-   USE FOLLOWUPS CORRECTLY
+   FOLLOWUPS
    ======================= */
 
 function currentItem() {
@@ -35,8 +35,7 @@ function currentItem() {
 }
 
 /* =======================
-   SCORE + CONFIDENCE FIX
-   (conf must be inside this function because it uses sep)
+   SCORING (WORKING)
    ======================= */
 
 function scoreArchetype() {
@@ -78,23 +77,15 @@ function scoreArchetype() {
 }
 
 /* =======================
-   IMPORTANT:
-   REMOVE ANY OLD LINES LIKE THESE (they WILL break your code):
-   - const conf = ...
-   - const scaleLabel = ...
-   - return FOLLOWUPS.find(...)   (outside currentItem)
-   ======================= */
-
-/* =======================
-   START APP ONLY AFTER JSON LOADS
-   Put this at the BOTTOM of your script,
-   AFTER function init() { ... } exists.
+   START APP (AFTER init exists)
    ======================= */
 
 loadData()
   .then(() => init())
   .catch(err => {
     console.error(err);
-    addMsg("bot", `<div><b>Load error:</b> Could not load JSON files. Check that /data/config.json exists and GitHub Pages is serving it.</div>`);
+    addMsg(
+      "bot",
+      `<div><b>Load error:</b> Could not load JSON files. Check that <code>/data/config.json</code> exists and GitHub Pages is serving it.</div>`
+    );
   });
-
