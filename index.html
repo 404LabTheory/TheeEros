@@ -18,3 +18,7 @@ async function loadData() {
   // optional config knobs you referenced earlier
   window.__CFG__ = cfg;
 }
+loadData().then(() => init());
+const conf = Math.max(0, Math.min(1, sep / 18));
+const denom = (window.__CFG__ && window.__CFG__.confidenceSeparationDenominator) || 18;
+const conf = Math.max(0, Math.min(1, sep / denom));
