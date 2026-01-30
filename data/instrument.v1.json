@@ -1,0 +1,22 @@
+{
+  "version": "v1",
+  "scaleLabel": "1=Strongly Disagree … 7=Strongly Agree",
+  "items": [
+    {
+      "id": "S1_Q01",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ABD",
+      "prompt": "When a partner becomes less emotionally responsive, I worry that the relationship is in danger."
+    }
+  ],
+  "followups": [
+    {
+      "id": "FU_ABD_1",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ABD",
+      "prompt": "When I don’t get a quick reply, my mind tends to fill in worst-case meanings."
+    }
+  ]
+}
