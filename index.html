@@ -898,7 +898,9 @@
       DOM.resetBtn.addEventListener('click', handleReset);
       DOM.exportBtn.addEventListener('click', handleExport);
 
-      addBotMessage(`Welcome to the ${config.app.name}. Type "start" to begin the assessment.`);
+      addBotMessage(`Welcome to the ${config.app.name}.`);
+      addBotMessage(`I'm here to guide you through a psychological assessment exploring romantic archetypes.`);
+      addBotMessage(`Type "start" to begin when you're ready.`);
     }
 
     function showDisclaimer() {
@@ -989,6 +991,25 @@
         return;
       }
 
+      // Add acknowledgment for previous response (except on first question)
+      if (currentItemIndex > 0) {
+        const previousItem = allItems[currentItemIndex - 1];
+        const responseValue = responses[previousItem.id];
+        if (responseValue !== undefined) {
+          const acknowledgments = [
+            "Thanks for sharing that.",
+            "I appreciate your honesty.",
+            "Got it. Moving on...",
+            "Understood.",
+            "Thank you.",
+            "That's helpful to know.",
+          ];
+          const ack = acknowledgments[Math.floor(Math.random() * acknowledgments.length)];
+          addBotMessage(ack);
+        }
+      }
+
+      // Ask the next question
       addBotMessage(currentItem.question);
 
       DOM.pillsContainer.innerHTML = '';
@@ -1019,6 +1040,11 @@
     function handleLikertResponse(value, itemId) {
       responses[itemId] = value;
       addUserMessage(String(value));
+      
+      // Add brief acknowledgment
+      const responses_list = ["Noted.", "Got it.", "Thank you.", "Understood."];
+      addBotMessage(responses_list[Math.floor(Math.random() * responses_list.length)]);
+      
       currentItemIndex++;
       checkForFollowups();
       saveToLocalStorage();
@@ -1026,7 +1052,7 @@
 
       setTimeout(() => {
         displayCurrentQuestion();
-      }, 300);
+      }, 600);
     }
 
     function handleSend() {
@@ -1044,7 +1070,13 @@
         DOM.userInput.value = '';
         saveToLocalStorage();
         currentItemIndex = 0;
-        displayCurrentQuestion();
+        
+        addBotMessage(`Great! Let's begin. There are ${baseItems.length} core questions, with potential follow-ups based on your responses.`);
+        addBotMessage(`I'll ask for your level of agreement on a scale of 1-7, or for open-ended responses.`);
+        
+        setTimeout(() => {
+          displayCurrentQuestion();
+        }, 800);
         return;
       }
 
@@ -1052,6 +1084,11 @@
         responses[currentItem.id] = userText;
         addUserMessage(userText);
         DOM.userInput.value = '';
+        
+        // Add acknowledgment
+        const acks = ["Thank you for that insight.", "Interesting. Moving on...", "I appreciate that detail.", "Got it."];
+        addBotMessage(acks[Math.floor(Math.random() * acks.length)]);
+        
         currentItemIndex++;
         checkForFollowups();
         saveToLocalStorage();
@@ -1059,7 +1096,7 @@
 
         setTimeout(() => {
           displayCurrentQuestion();
-        }, 300);
+        }, 600);
       }
     }
 
@@ -1190,10 +1227,19 @@
       currentItemIndex = 0;
       followupQueue = [];
 
+      // Add completion message
+      addBotMessage("Thank you for completing the assessment. Analyzing your responses...");
+
       const finalScoring = calculateScoring();
       if (finalScoring) {
         const archetype = (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype);
-        addBotMessage(`Assessment complete! Your archetype is: ${archetype?.name || 'Unknown'} (${Math.round(finalScoring.confidence * 100)}% confidence).`);
+        const confidence = Math.round(finalScoring.confidence * 100);
+        
+        setTimeout(() => {
+          addBotMessage(`Based on your responses, your primary archetype is: **${archetype?.name || 'Unknown'}** (${confidence}% confidence).`);
+          addBotMessage(`${archetype?.description || ''}`);
+          addBotMessage("You can reset and take the assessment again, or export your results.");
+        }, 800);
       } else {
         addBotMessage('Assessment complete!');
       }
@@ -1213,7 +1259,8 @@
         DOM.chatMessages.innerHTML = '';
         DOM.inputContainer.style.display = 'none';
         updateScoreboard();
-        addBotMessage(`${config.app.name} reset. Type "start" to begin a new assessment.`);
+        addBotMessage(`Welcome back to the ${config.app.name}!`);
+        addBotMessage(`Type "start" to begin a new assessment.`);
       }
     }
 
