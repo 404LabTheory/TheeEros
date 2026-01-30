@@ -8,6 +8,486 @@
       "domain": "Attachment",
       "sub": "ABD",
       "prompt": "When a partner becomes less emotionally responsive, I worry that the relationship is in danger."
+    },
+    {
+      "id": "S1_Q02",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ABD",
+      "prompt": "I find it difficult to relax when I am uncertain about a partner’s feelings toward me."
+    },
+    {
+      "id": "S1_Q03",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ABD",
+      "prompt": "Periods of emotional distance make me feel uneasy, even if nothing explicit is wrong."
+    },
+    {
+      "id": "S1_Q04",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ENG",
+      "prompt": "Too much emotional closeness can make me feel restricted or overwhelmed."
+    },
+    {
+      "id": "S1_Q05",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ENG",
+      "prompt": "I become uncomfortable when a partner expects a high level of emotional dependence."
+    },
+    {
+      "id": "S1_Q06",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ENG",
+      "prompt": "I need personal space to feel balanced in a relationship."
+    },
+    {
+      "id": "S1_Q07",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "IND",
+      "prompt": "I prefer to manage my emotional needs without relying heavily on a partner."
+    },
+    {
+      "id": "S1_Q08",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "IND",
+      "prompt": "Maintaining a sense of independence is essential for me in close relationships."
+    },
+    {
+      "id": "S1_Q09",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "IND",
+      "prompt": "I feel most stable when I know I can function well on my own."
+    },
+    {
+      "id": "S1_Q10",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ENM",
+      "prompt": "My emotional well-being is closely tied to my partner’s emotional state."
+    },
+    {
+      "id": "S1_Q11",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ENM",
+      "prompt": "When my relationship feels uncertain, it affects how I see myself."
+    },
+    {
+      "id": "S1_Q12",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ENM",
+      "prompt": "I feel most grounded when my partner and I are emotionally in sync."
+    },
+    {
+      "id": "S1_Q13",
+      "type": "text",
+      "domain": "Attachment",
+      "sub": "QUAL",
+      "prompt": "Describe a situation in which you felt most secure in a romantic relationship. What specifically contributed to that sense of security? (3–5 sentences)"
+    },
+    {
+      "id": "S1_Q14",
+      "type": "text",
+      "domain": "Attachment",
+      "sub": "QUAL",
+      "prompt": "Describe a time when closeness in a relationship felt uncomfortable or threatening. What made it feel that way? (3–5 sentences)"
+    },
+    {
+      "id": "S1_Q15",
+      "type": "text",
+      "domain": "Attachment",
+      "sub": "QUAL",
+      "prompt": "When a partner becomes emotionally distant, what do you tend to assume is happening, and how do you usually respond internally? (3–5 sentences)"
+    },
+
+    {
+      "id": "S2_Q01",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FIGHT",
+      "prompt": "When conflict arises, I feel an immediate urge to address it head-on."
+    },
+    {
+      "id": "S2_Q02",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FIGHT",
+      "prompt": "I become more emotionally intense when I feel misunderstood."
+    },
+    {
+      "id": "S2_Q03",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FIGHT",
+      "prompt": "Strong emotions come up quickly for me during relational conflict."
+    },
+    {
+      "id": "S2_Q04",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FLIGHT",
+      "prompt": "My instinct during conflict is to take space rather than continue the discussion."
+    },
+    {
+      "id": "S2_Q05",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FLIGHT",
+      "prompt": "I often postpone difficult conversations to reduce immediate tension."
+    },
+    {
+      "id": "S2_Q06",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FLIGHT",
+      "prompt": "When emotions run high, I prefer to withdraw and regroup on my own."
+    },
+    {
+      "id": "S2_Q07",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FREEZE",
+      "prompt": "During conflict, I struggle to access or express what I am feeling."
+    },
+    {
+      "id": "S2_Q08",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FREEZE",
+      "prompt": "I become quiet or emotionally still when situations feel overwhelming."
+    },
+    {
+      "id": "S2_Q09",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FREEZE",
+      "prompt": "I suppress my reactions to prevent conflict from escalating."
+    },
+    {
+      "id": "S2_Q10",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "RECOV",
+      "prompt": "After conflict, I am usually able to calm myself and re-engage constructively."
+    },
+    {
+      "id": "S2_Q11",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "RECOV",
+      "prompt": "I recover emotionally from relational stress without lingering resentment."
+    },
+    {
+      "id": "S2_Q12",
+      "type": "text",
+      "domain": "Regulation",
+      "sub": "QUAL",
+      "prompt": "What usually happens inside you during conflict with someone you care about? (emotions, thoughts, bodily reactions)"
+    },
+    {
+      "id": "S2_Q13",
+      "type": "text",
+      "domain": "Regulation",
+      "sub": "QUAL",
+      "prompt": "What helps you calm down after an argument or emotionally intense interaction?"
+    },
+    {
+      "id": "S2_Q14",
+      "type": "text",
+      "domain": "Regulation",
+      "sub": "QUAL",
+      "prompt": "What do partners tend to misunderstand about how you handle stress or conflict?"
+    },
+
+    {
+      "id": "S3_Q01",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "LOVESTYLE",
+      "prompt": "I show love mainly through consistent actions rather than emotional expression."
+    },
+    {
+      "id": "S3_Q02",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "LOVESTYLE",
+      "prompt": "I express care by being present and reliable, even when it is inconvenient."
+    },
+    {
+      "id": "S3_Q03",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "LOVESTYLE",
+      "prompt": "I believe love is demonstrated through effort more than words."
+    },
+    {
+      "id": "S3_Q04",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "SAC",
+      "prompt": "I am willing to sacrifice personal comfort to support a relationship."
+    },
+    {
+      "id": "S3_Q05",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "SAC",
+      "prompt": "I often put my own needs aside to preserve the relationship."
+    },
+    {
+      "id": "S3_Q06",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "SAC",
+      "prompt": "I feel responsible for maintaining the relationship, even when it is difficult."
+    },
+    {
+      "id": "S3_Q07",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "STRESSRESP",
+      "prompt": "When a relationship feels unstable, I tend to give more rather than pull away."
+    },
+    {
+      "id": "S3_Q08",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "STRESSRESP",
+      "prompt": "If my efforts are not reciprocated, I reduce how much I invest."
+    },
+    {
+      "id": "S3_Q09",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "STRESSRESP",
+      "prompt": "I respond to relational strain by either doubling down or disengaging."
+    },
+    {
+      "id": "S3_Q10",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "LOYTHR",
+      "prompt": "There are clear limits beyond which I would reconsider staying in a relationship."
+    },
+    {
+      "id": "S3_Q11",
+      "type": "likert7",
+      "domain": "Investment",
+      "sub": "LOYTHR",
+      "prompt": "I remain committed to a relationship even during prolonged difficulty."
+    },
+    {
+      "id": "S3_Q12",
+      "type": "text",
+      "domain": "Investment",
+      "sub": "QUAL",
+      "prompt": "What is the most meaningful way you have shown commitment in a relationship?"
+    },
+    {
+      "id": "S3_Q13",
+      "type": "text",
+      "domain": "Investment",
+      "sub": "QUAL",
+      "prompt": "Describe something you have sacrificed for a relationship that you later questioned or regretted."
+    },
+    {
+      "id": "S3_Q14",
+      "type": "text",
+      "domain": "Investment",
+      "sub": "QUAL",
+      "prompt": "What would need to change for you to seriously reconsider staying in a long-term relationship?"
+    },
+
+    {
+      "id": "S4_Q01",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "DES_ATTACH",
+      "prompt": "I feel desire most strongly when I feel emotionally connected to my partner."
+    },
+    {
+      "id": "S4_Q02",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "DES_NOVEL",
+      "prompt": "My desire increases when interactions feel exciting or unpredictable."
+    },
+    {
+      "id": "S4_Q03",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "DES_NONCONN",
+      "prompt": "I can experience desire even without emotional closeness."
+    },
+    {
+      "id": "S4_Q04",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "AROUSAL_VALID",
+      "prompt": "Feeling wanted or chosen reliably increases my desire."
+    },
+    {
+      "id": "S4_Q05",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "AROUSAL_ASSERT",
+      "prompt": "Confidence or assertiveness in a partner increases my attraction."
+    },
+    {
+      "id": "S4_Q06",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "AROUSAL_INTENS",
+      "prompt": "Emotional intensity tends to heighten my desire."
+    },
+    {
+      "id": "S4_Q07",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "PWR_LEAD",
+      "prompt": "I feel more attracted when one partner takes the lead."
+    },
+    {
+      "id": "S4_Q08",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "PWR_HARM",
+      "prompt": "Imbalances in power tend to reduce my desire over time."
+    },
+    {
+      "id": "S4_Q09",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "ATTR_EMO",
+      "prompt": "I am most attracted to partners who demonstrate emotional awareness."
+    },
+    {
+      "id": "S4_Q10",
+      "type": "likert7",
+      "domain": "Desire",
+      "sub": "ATTR_STAB",
+      "prompt": "Consistency and reliability increase my attraction over time."
+    },
+    {
+      "id": "S4_Q11",
+      "type": "text",
+      "domain": "Desire",
+      "sub": "QUAL",
+      "prompt": "What reliably increases your desire for a partner over time?"
+    },
+    {
+      "id": "S4_Q12",
+      "type": "text",
+      "domain": "Desire",
+      "sub": "QUAL",
+      "prompt": "What reliably diminishes your desire, even if the relationship is otherwise stable?"
+    },
+    {
+      "id": "S4_Q13",
+      "type": "text",
+      "domain": "Desire",
+      "sub": "QUAL",
+      "prompt": "How does confidence, control, or power affect your attraction to someone?"
+    },
+
+    {
+      "id": "S5_Q01",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "MIRROR",
+      "prompt": "I often adjust my preferences or behavior to match my partner’s expectations."
+    },
+    {
+      "id": "S5_Q02",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "WILDCARD",
+      "prompt": "I resist being defined by relationship roles or expectations."
+    },
+    {
+      "id": "S5_Q03",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "SHADOW",
+      "prompt": "There are parts of myself I consistently hide or suppress in relationships."
+    },
+    {
+      "id": "S5_Q04",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "ERASE",
+      "prompt": "I minimize my own needs to keep relationships stable."
+    },
+    {
+      "id": "S5_Q05",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "CONTROL",
+      "prompt": "I feel more secure when I have influence over the direction of the relationship."
+    },
+    {
+      "id": "S5_Q06",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "CONTROL",
+      "prompt": "I tend to assert control rather than adapt when conflict threatens the relationship."
+    },
+    {
+      "id": "S5_Q07",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "ROLEFLX",
+      "prompt": "I can move between leading and following in a relationship without discomfort."
+    },
+    {
+      "id": "S5_Q08",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "ROLEFLX",
+      "prompt": "Changing roles in a relationship does not feel like a threat to who I am."
+    },
+    {
+      "id": "S5_Q09",
+      "type": "text",
+      "domain": "Identity",
+      "sub": "QUAL",
+      "prompt": "Who do you tend to become in romantic relationships compared to when you are on your own?"
+    },
+    {
+      "id": "S5_Q10",
+      "type": "text",
+      "domain": "Identity",
+      "sub": "QUAL",
+      "prompt": "What parts of yourself do you feel you hide, exaggerate, or protect when you are in a relationship?"
+    },
+    {
+      "id": "S5_Q11",
+      "type": "text",
+      "domain": "Identity",
+      "sub": "QUAL",
+      "prompt": "When conflict arises, do you tend to adapt to preserve the relationship or assert yourself to preserve your identity? Why?"
+    },
+    {
+      "id": "S5_Q12",
+      "type": "text",
+      "domain": "Identity",
+      "sub": "QUAL",
+      "prompt": "Who usually has more influence over decisions and direction in your relationships, and how do you feel about that?"
+    },
+    {
+      "id": "S5_Q13",
+      "type": "text",
+      "domain": "Identity",
+      "sub": "QUAL",
+      "prompt": "How has being in a long-term relationship changed the way you see yourself, for better or worse?"
     }
   ],
   "followups": [
@@ -17,6 +497,34 @@
       "domain": "Attachment",
       "sub": "ABD",
       "prompt": "When I don’t get a quick reply, my mind tends to fill in worst-case meanings."
+    },
+    {
+      "id": "FU_ENG_1",
+      "type": "likert7",
+      "domain": "Attachment",
+      "sub": "ENG",
+      "prompt": "If a partner wants frequent emotional check-ins, I feel pressured or confined."
+    },
+    {
+      "id": "FU_CTRL_1",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "CONTROL",
+      "prompt": "I feel uneasy when I’m not the one setting the direction in a relationship."
+    },
+    {
+      "id": "FU_ERASE_1",
+      "type": "likert7",
+      "domain": "Identity",
+      "sub": "ERASE",
+      "prompt": "I often go along with what a partner wants even when I disagree internally."
+    },
+    {
+      "id": "FU_FLIGHT_1",
+      "type": "likert7",
+      "domain": "Regulation",
+      "sub": "FLIGHT",
+      "prompt": "I use humor or distraction to reduce tension instead of staying with the conflict."
     }
   ]
 }
