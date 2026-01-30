@@ -1,3 +1,7 @@
+/* =======================
+   JSON-LOADED INSTRUMENT
+   ======================= */
+
 let ITEMS = [];
 let FOLLOWUPS = [];
 let ARCHETYPES = [];
@@ -5,9 +9,9 @@ let PROTOTYPES = {};
 let scaleLabel = "1=Strongly Disagree … 7=Strongly Agree";
 
 async function loadData() {
-  const cfg = await fetch("./data/config.json").then(r=>r.json());
-  const instrument = await fetch("./data/" + cfg.activeInstrument).then(r=>r.json());
-  const protos = await fetch("./data/" + cfg.activePrototypes).then(r=>r.json());
+  const cfg = await fetch("./data/config.json").then(r => r.json());
+  const instrument = await fetch("./data/" + cfg.activeInstrument).then(r => r.json());
+  const protos = await fetch("./data/" + cfg.activePrototypes).then(r => r.json());
 
   scaleLabel = instrument.scaleLabel || scaleLabel;
   ITEMS = instrument.items || [];
@@ -15,10 +19,74 @@ async function loadData() {
   ARCHETYPES = protos.archetypes || [];
   PROTOTYPES = protos.prototypes || {};
 
-  // optional config knobs you referenced earlier
   window.__CFG__ = cfg;
 }
+
+/* =======================
+   USE FOLLOWUPS CORRECTLY
+   ======================= */
+
+function currentItem() {
+  if (state.followupsQueue.length > 0) {
+    const fuId = state.followupsQueue[0];
+    return FOLLOWUPS.find(f => f.id === fuId) || null;
+  }
+  return ITEMS[state.idx] || null;
+}
+
+/* =======================
+   SCORE + CONFIDENCE FIX
+   (conf must be inside this function because it uses sep)
+   ======================= */
+
+function scoreArchetype() {
+  const raw = computeRawSubScores();
+  const { norm } = normalizeWithinPerson(raw);
+
+  const dists = [];
+  for (const arch of ARCHETYPES) {
+    const proto = PROTOTYPES[arch] || {};
+    let sum = 0, wsum = 0;
+
+    for (const [k, target] of Object.entries(proto)) {
+      const v = norm[k];
+      if (v === null || v === undefined) continue;
+      const w = 1; // MVP weights
+      sum += w * Math.abs(v - target);
+      wsum += w;
+    }
+
+    const dist = wsum > 0 ? (sum / wsum) : 999;
+    dists.push({ arch, dist });
+  }
+
+  dists.sort((a, b) => a.dist - b.dist);
+
+  const best = dists[0] || { arch: "—", dist: 999 };
+  const second = dists[1] || { arch: "—", dist: best.dist + 1 };
+
+  const sep = Math.max(0, second.dist - best.dist);
+
+  const denom =
+    (window.__CFG__ && window.__CFG__.confidenceSeparationDenominator) || 18;
+
+  const conf = Math.max(0, Math.min(1, sep / denom));
+
+  return { best: best.arch, conf, dists, norm, raw };
+}
+
+/* =======================
+   IMPORTANT:
+   REMOVE ANY OLD LINES LIKE THESE (they WILL break your code):
+   - const conf = ...
+   - const scaleLabel = ...
+   - return FOLLOWUPS.find(...)   (outside currentItem)
+   ======================= */
+
+/* =======================
+   START APP ONLY AFTER JSON LOADS
+   Put this at the BOTTOM of your script,
+   AFTER function init() { ... } exists.
+   ======================= */
+
 loadData().then(() => init());
-const conf = Math.max(0, Math.min(1, sep / 18));
-const denom = (window.__CFG__ && window.__CFG__.confidenceSeparationDenominator) || 18;
-const conf = Math.max(0, Math.min(1, sep / denom));
