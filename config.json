@@ -1,0 +1,7 @@
+{
+  "activeInstrument": "instrument.v1.json",
+  "activePrototypes": "prototypes.v1.json",
+  "maxBaseItems": 69,
+  "enableFollowups": true,
+  "confidenceSeparationDenominator": 18
+}
