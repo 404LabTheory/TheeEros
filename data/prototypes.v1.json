@@ -1,121 +1,151 @@
 {
   "version": "v1",
   "archetypes": [
-    "Conquistador",
-    "Siren",
-    "Magistrate",
-    "Devotee",
-    "Paladin",
-    "Oracle",
-    "Jester",
-    "Muse",
-    "Shaman",
-    "Oasis",
-    "Tyrant",
-    "Martyr"
+    {
+      "id": "CONQUISTADOR",
+      "name": "The Conquistador",
+      "description": "Bold, independent, driven by novelty and autonomy."
+    },
+    {
+      "id": "SIREN",
+      "name": "The Siren",
+      "description": "Emotionally expressive, desires attention and validation."
+    },
+    {
+      "id": "MAGISTRATE",
+      "name": "The Magistrate",
+      "description": "Controlled, loyal, values stability and order."
+    },
+    {
+      "id": "DEVOTEE",
+      "name": "The Devotee",
+      "description": "Deeply devoted, self-sacrificing, emotionally enmeshed."
+    },
+    {
+      "id": "SAGE",
+      "name": "The Sage",
+      "description": "Reflective, analytical, seeks understanding and truth."
+    },
+    {
+      "id": "EXPLORER",
+      "name": "The Explorer",
+      "description": "Adventurous, curious, values growth and discovery."
+    },
+    {
+      "id": "CAREGIVER",
+      "name": "The Caregiver",
+      "description": "Nurturing, supportive, finds meaning in serving others."
+    },
+    {
+      "id": "LOVER",
+      "name": "The Lover",
+      "description": "Passionate, intimate, seeks deep emotional connection."
+    },
+    {
+      "id": "CREATOR",
+      "name": "The Creator",
+      "description": "Expressive, innovative, driven to bring new things into being."
+    },
+    {
+      "id": "INNOCENT",
+      "name": "The Innocent",
+      "description": "Optimistic, trusting, seeks happiness and safety."
+    },
+    {
+      "id": "SAGE_MENTOR",
+      "name": "The Sage Mentor",
+      "description": "Wise, principled, guided by knowledge and ethics."
+    },
+    {
+      "id": "EVERYMAN",
+      "name": "The Everyman",
+      "description": "Grounded, relatable, values belonging and community."
+    }
   ],
-  "prototypes": {
-    "Conquistador": {
-      "IND": 80,
+  "profiles": {
+    "CONQUISTADOR": {
+      "ABD": 40,
       "ENG": 75,
-      "FLIGHT": 65,
       "CONTROL": 60,
-      "LOYTHR": 35,
-      "DES_NOVEL": 80,
-      "DES_ATTACH": 35,
-      "PWR_LEAD": 65
+      "ERASE": 30,
+      "FLIGHT": 70
     },
-    "Siren": {
-      "ABD": 80,
-      "ENM": 65,
-      "AROUSAL_VALID": 85,
-      "DES_ATTACH": 70,
-      "MIRROR": 65,
-      "FREEZE": 55,
-      "FIGHT": 55
+    "SIREN": {
+      "ABD": 75,
+      "ENG": 50,
+      "CONTROL": 45,
+      "ERASE": 40,
+      "FLIGHT": 55
     },
-    "Magistrate": {
-      "CONTROL": 75,
-      "FREEZE": 70,
-      "ENG": 65,
-      "LOYTHR": 75,
-      "ATTR_STAB": 80,
-      "DES_NOVEL": 35
-    },
-    "Devotee": {
-      "ABD": 85,
-      "ENM": 80,
-      "SAC": 85,
-      "ERASE": 80,
-      "LOYTHR": 80,
-      "DES_ATTACH": 75
-    },
-    "Paladin": {
-      "FIGHT": 70,
-      "RECOV": 70,
-      "CONTROL": 55,
+    "MAGISTRATE": {
       "ABD": 35,
-      "ATTR_EMO": 65,
-      "ATTR_STAB": 65,
-      "PWR_HARM": 65
-    },
-    "Oracle": {
-      "FREEZE": 70,
       "ENG": 65,
-      "CONTROL": 35,
-      "ATTR_EMO": 75,
-      "DES_ATTACH": 65,
-      "SHADOW": 60
+      "CONTROL": 80,
+      "ERASE": 35,
+      "FLIGHT": 40
     },
-    "Jester": {
-      "FLIGHT": 85,
-      "IND": 75,
-      "LOYTHR": 35,
-      "WILDCARD": 75,
-      "DES_NOVEL": 70,
-      "SAC": 30
-    },
-    "Muse": {
-      "FLIGHT": 70,
-      "IND": 60,
-      "WILDCARD": 80,
-      "CONTROL": 30,
-      "DES_NOVEL": 75,
-      "ATTR_EMO": 55
-    },
-    "Shaman": {
-      "SAC": 70,
-      "RECOV": 75,
-      "DES_ATTACH": 60,
-      "ATTR_EMO": 70,
-      "FIGHT": 55,
-      "ERASE": 50
-    },
-    "Oasis": {
-      "FREEZE": 70,
-      "ENM": 75,
-      "SAC": 70,
-      "RECOV": 55,
-      "ERASE": 55,
-      "ATTR_STAB": 70
-    },
-    "Tyrant": {
-      "CONTROL": 90,
-      "FIGHT": 80,
-      "ENG": 75,
-      "ERASE": 20,
-      "PWR_LEAD": 80,
-      "PWR_HARM": 25,
-      "RECOV": 30
-    },
-    "Martyr": {
-      "ERASE": 90,
+    "DEVOTEE": {
       "ABD": 85,
-      "FREEZE": 75,
-      "LOYTHR": 85,
-      "CONTROL": 20,
-      "SAC": 75,
-      "PWR_HARM": 70
+      "ENG": 45,
+      "CONTROL": 30,
+      "ERASE": 75,
+      "FLIGHT": 25
+    },
+    "SAGE": {
+      "ABD": 30,
+      "ENG": 40,
+      "CONTROL": 55,
+      "ERASE": 50,
+      "FLIGHT": 45
+    },
+    "EXPLORER": {
+      "ABD": 50,
+      "ENG": 70,
+      "CONTROL": 55,
+      "ERASE": 25,
+      "FLIGHT": 80
+    },
+    "CAREGIVER": {
+      "ABD": 65,
+      "ENG": 40,
+      "CONTROL": 40,
+      "ERASE": 70,
+      "FLIGHT": 30
+    },
+    "LOVER": {
+      "ABD": 80,
+      "ENG": 60,
+      "CONTROL": 35,
+      "ERASE": 45,
+      "FLIGHT": 50
+    },
+    "CREATOR": {
+      "ABD": 45,
+      "ENG": 75,
+      "CONTROL": 65,
+      "ERASE": 35,
+      "FLIGHT": 60
+    },
+    "INNOCENT": {
+      "ABD": 60,
+      "ENG": 55,
+      "CONTROL": 40,
+      "ERASE": 30,
+      "FLIGHT": 35
+    },
+    "SAGE_MENTOR": {
+      "ABD": 25,
+      "ENG": 50,
+      "CONTROL": 70,
+      "ERASE": 55,
+      "FLIGHT": 40
+    },
+    "EVERYMAN": {
+      "ABD": 55,
+      "ENG": 45,
+      "CONTROL": 50,
+      "ERASE": 45,
+      "FLIGHT": 50
     }
   }
 }

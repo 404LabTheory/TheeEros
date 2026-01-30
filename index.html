@@ -1,46 +1,1252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eros Index Chatbot</title>
-
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0e0e11;
-      color: #f5f5f7;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    #app {
-      max-width: 800px;
+    :root {
+      --gold: #D4AF37;
+      --purple: #5B2C83;
+      --red: #8B1E2D;
+      --dark-bg: #2A1F2F;
+      --paper: #EBE7DE;
+      --text-dark: #1A1410;
+      --text-light: #5A5050;
+      --border-light: #D0CCBF;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-dark);
+      background-color: var(--dark-bg);
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(90deg, transparent 24%, rgba(255,255,255,.05) 25%, rgba(255,255,255,.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.05) 75%, rgba(255,255,255,.05) 76%, transparent 77%, transparent),
+        linear-gradient(0deg, transparent 24%, rgba(255,255,255,.05) 25%, rgba(255,255,255,.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.05) 75%, rgba(255,255,255,.05) 76%, transparent 77%, transparent),
+        linear-gradient(180deg, transparent 24%, rgba(255,255,255,.03) 25%, rgba(255,255,255,.03) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.03) 75%, rgba(255,255,255,.03) 76%, transparent 77%),
+        linear-gradient(90deg, transparent 24%, rgba(255,255,255,.03) 25%, rgba(255,255,255,.03) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.03) 75%, rgba(255,255,255,.03) 76%, transparent 77%);
+      background-size: 50px 50px, 50px 50px, 100px 100px, 100px 100px;
+      background-position: 0 0, 10px 10px, 0 0, 10px 10px;
+      background-color: #D8CCBA;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(212,175,55,0.03) 0%, rgba(0,0,0,0.1) 100%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(91,44,131,0.1) 100%);
+      border-bottom: 2px solid var(--gold);
+      padding: 20px 30px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+
+    .health-check {
+      background: rgba(91,44,131,0.08);
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .health-check-title {
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .health-check-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+    }
+
+    .health-check-path {
+      color: var(--text-dark);
+      flex: 1;
+    }
+
+    .health-check-status {
+      margin-left: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 2px;
+      min-width: 35px;
+      text-align: center;
+    }
+
+    .health-check-ok {
+      background: rgba(76, 175, 80, 0.2);
+      color: #2d7a2d;
+    }
+
+    .health-check-fail {
+      background: rgba(244, 67, 54, 0.2);
+      color: #c62828;
+    }
+
+    .header-inner {
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 24px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
     }
 
-    .bot {
-      background: #1a1a22;
-      border-radius: 12px;
-      padding: 16px;
-      min-height: 60vh;
+    .header-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .header-subtitle {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 12px;
+      color: var(--purple);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    .header-meta {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      color: var(--text-light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .chat-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--gold);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .chat-section::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, var(--purple), transparent);
+      opacity: 0.3;
+    }
+
+    .chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+      background: linear-gradient(90deg, rgba(212,175,55,0.05), transparent);
+    }
+
+    .chat-header h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 18px;
+      color: var(--purple);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      display: flex;
+      gap: 12px;
+      animation: slideInMessage 0.4s ease-out;
+    }
+
+    @keyframes slideInMessage {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.bot {
+      justify-content: flex-start;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message-bubble {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 2px;
+      font-size: 14px;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    .message.bot .message-bubble {
+      background: rgba(212,175,55,0.1);
+      border-left: 3px solid var(--gold);
+      border-top: 1px solid var(--border-light);
+      color: var(--text-dark);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 13px;
+    }
+
+    .message.user .message-bubble {
+      background: var(--purple);
+      color: var(--paper);
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(91,44,131,0.2);
+    }
+
+    .message.system .message-bubble {
+      background: rgba(139,30,45,0.1);
+      border: 1px solid var(--red);
+      color: var(--red);
+      text-align: center;
+      font-weight: 500;
+      max-width: 100%;
+    }
+
+    .chat-input-area {
+      padding: 16px 20px;
+      border-top: 2px solid var(--gold);
+      background: linear-gradient(180deg, transparent, rgba(212,175,55,0.05));
+      flex-shrink: 0;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .input-group input[type="text"],
+    .input-group textarea {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--border-light);
+      background: rgba(255,255,255,0.6);
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text-dark);
+      border-radius: 2px;
+      resize: none;
+      min-height: 40px;
+    }
+
+    .input-group input[type="text"]:focus,
+    .input-group textarea:focus {
+      outline: 2px solid var(--gold);
+      outline-offset: 0;
+      background: white;
+    }
+
+    .pills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .pill {
+      padding: 8px 14px;
+      border: 1px solid var(--border-light);
+      background: rgba(255,255,255,0.7);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      color: var(--text-dark);
+    }
+
+    .pill:hover {
+      background: var(--gold);
+      color: var(--dark-bg);
+      border-color: var(--gold);
+      box-shadow: 0 2px 8px rgba(212,175,55,0.3);
+    }
+
+    .pill.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--dark-bg);
+      box-shadow: 0 2px 8px rgba(212,175,55,0.4);
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: 1px solid var(--border-light);
+      background: rgba(255,255,255,0.7);
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      color: var(--text-dark);
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--dark-bg);
+      box-shadow: 0 2px 8px rgba(212,175,55,0.3);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn:focus {
+      outline: 2px solid var(--purple);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: var(--paper);
+    }
+
+    .btn-primary:hover {
+      background: #6B3B93;
+      border-color: #6B3B93;
+      color: var(--paper);
+      box-shadow: 0 2px 8px rgba(91,44,131,0.3);
+    }
+
+    .btn-danger {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--paper);
+    }
+
+    .btn-danger:hover {
+      background: #A42A3A;
+      border-color: #A42A3A;
+      color: var(--paper);
+    }
+
+    .scoreboard {
+      width: 320px;
+      background: var(--paper);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--purple);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .scoreboard::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, var(--gold), transparent);
+      opacity: 0.3;
+    }
+
+    .scoreboard-section {
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .scoreboard-section:last-child {
+      border-bottom: none;
+    }
+
+    .scoreboard-label {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--purple);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .archetype-name {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 16px;
+      color: var(--gold);
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .archetype-subtitle {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .confidence-meter {
+      height: 8px;
+      background: var(--border-light);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      transition: width 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .confidence-label {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .progress-text {
+      font-size: 13px;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .subfactor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .subfactor-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      background: rgba(212,175,55,0.05);
+      border-left: 2px solid var(--gold);
+      border-radius: 2px;
+      font-size: 12px;
+    }
+
+    .subfactor-key {
+      color: var(--purple);
+      font-weight: 600;
+    }
+
+    .subfactor-value {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-light);
+      flex-wrap: wrap;
+    }
+
+    .controls .btn {
+      flex: 1;
+      min-width: 120px;
+      font-size: 11px;
+      padding: 8px 10px;
+    }
+
+    @media (max-width: 1024px) {
+      .main-content {
+        flex-direction: column;
+      }
+
+      .scoreboard {
+        width: 100%;
+        height: 180px;
+        flex-direction: row;
+        gap: 12px;
+        padding: 12px;
+        overflow-x: auto;
+      }
+
+      .scoreboard-section {
+        flex-shrink: 0;
+        min-width: 200px;
+        padding-bottom: 0;
+        border-bottom: none;
+        border-right: 1px solid var(--border-light);
+        padding-right: 12px;
+      }
+
+      .scoreboard-section:last-child {
+        border-right: none;
+      }
+
+      .message-bubble {
+        max-width: 85%;
+      }
+
+      .header-title {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .main-content {
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .chat-section {
+        border-left: 2px solid var(--gold);
+      }
+
+      .scoreboard {
+        height: auto;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+      }
+
+      .scoreboard-section {
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+        padding-right: 0;
+        padding-bottom: 12px;
+      }
+
+      .scoreboard-section:last-child {
+        border-bottom: none;
+      }
+
+      .message-bubble {
+        max-width: 90%;
+      }
+
+      .header-title {
+        font-size: 20px;
+      }
+
+      .chat-messages {
+        padding: 12px;
+      }
+
+      .chat-input-area {
+        padding: 12px;
+      }
+
+      .pills-container {
+        gap: 6px;
+      }
+
+      .pill {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+
+    .disclaimer {
+      background: rgba(139,30,45,0.1);
+      border: 1px solid var(--red);
+      border-radius: 2px;
+      padding: 12px;
+      font-size: 11px;
+      color: var(--red);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(212,175,55,0.3);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .error-message {
+      background: rgba(139,30,45,0.15);
+      border-left: 3px solid var(--red);
+      padding: 12px;
+      color: var(--red);
+      border-radius: 2px;
+      font-size: 12px;
+      line-height: 1.4;
     }
   </style>
 </head>
-
 <body>
-  <div id="app">
-    <h1>Eros Index</h1>
-    <p>Conversational assessment prototype</p>
+  <div class="container">
+    <header>
+      <div class="header-inner">
+        <div>
+          <div class="header-title">Eros Index</div>
+          <div class="header-subtitle">Interactive Assessment Chatbot</div>
+          <div class="header-meta">An exploration of psychological archetypes through conversational inquiry</div>
+        </div>
+      </div>
+      <div id="healthCheckContainer" class="health-check" style="display: none;">
+        <div class="health-check-title">Health Check — Data File Status</div>
+        <div id="healthCheckItems"></div>
+        <div style="margin-top: 8px; font-size: 10px; color: var(--text-light);">
+          Base URL: <span id="baseUrl" style="font-family: 'Courier New', monospace;"></span>
+        </div>
+      </div>
+    </header>
 
-    <div id="bot" class="bot">
-      <!-- Bot messages will appear here -->
+    <div class="main-content">
+      <div class="chat-section">
+        <div class="chat-header">
+          <h2>Assessment Dialog</h2>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+        </div>
+        <div class="chat-input-area">
+          <div id="disclaimerContainer"></div>
+          <div id="inputContainer" style="display: none;">
+            <div id="pillsContainer" class="pills-container" style="display: none;"></div>
+            <div class="input-group">
+              <input type="text" id="userInput" placeholder="Type your response..." style="display: none;">
+              <button class="btn btn-primary" id="sendBtn" style="display: none;">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scoreboard">
+        <div class="scoreboard-section">
+          <div class="scoreboard-label">Archetype Preview</div>
+          <div class="archetype-name" id="archetypeName">—</div>
+          <div class="archetype-subtitle" id="archetypeSubtitle"></div>
+        </div>
+
+        <div class="scoreboard-section">
+          <div class="scoreboard-label">Confidence</div>
+          <div class="confidence-meter">
+            <div class="confidence-fill" id="confidenceFill" style="width: 0%;"></div>
+          </div>
+          <div class="confidence-label" id="confidenceLabel">—</div>
+        </div>
+
+        <div class="scoreboard-section">
+          <div class="scoreboard-label">Progress</div>
+          <div class="progress-text" id="progressText">0 / 0</div>
+          <div style="font-size: 10px; color: var(--text-light); margin-top: 4px;">
+            <span id="followupCount">0</span> follow-ups queued
+          </div>
+        </div>
+
+        <div class="scoreboard-section">
+          <div class="scoreboard-label">Subfactor Snapshot</div>
+          <div class="subfactor-list" id="subfactorList">
+            <div style="font-size: 12px; color: var(--text-light);">No data yet</div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-danger" id="resetBtn" style="flex: 1;">Reset</button>
+          <button class="btn" id="exportBtn" style="flex: 1;">Export</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Your entire JS bot code goes here -->
   <script>
-    console.log("Site loaded. JS is running.");
+    const CONFIG_URL = './data/config.json';
+    const INSTRUMENT_URL = './data/instrument.v1.json';
+    const PROTOTYPES_URL = './data/prototypes.v1.json';
+
+    let config = null;
+    let instrument = null;
+    let prototypes = null;
+    let responses = {};
+    let currentItemIndex = 0;
+    let assessmentStarted = false;
+    let baseItems = [];
+    let followupQueue = [];
+    let currentScoring = null;
+    let currentArchetype = null;
+
+    const DOM = {
+      chatMessages: document.getElementById('chatMessages'),
+      userInput: document.getElementById('userInput'),
+      sendBtn: document.getElementById('sendBtn'),
+      pillsContainer: document.getElementById('pillsContainer'),
+      inputContainer: document.getElementById('inputContainer'),
+      disclaimerContainer: document.getElementById('disclaimerContainer'),
+      resetBtn: document.getElementById('resetBtn'),
+      exportBtn: document.getElementById('exportBtn'),
+      archetypeName: document.getElementById('archetypeName'),
+      archetypeSubtitle: document.getElementById('archetypeSubtitle'),
+      confidenceFill: document.getElementById('confidenceFill'),
+      confidenceLabel: document.getElementById('confidenceLabel'),
+      progressText: document.getElementById('progressText'),
+      followupCount: document.getElementById('followupCount'),
+      subfactorList: document.getElementById('subfactorList'),
+      healthCheckContainer: document.getElementById('healthCheckContainer'),
+      healthCheckItems: document.getElementById('healthCheckItems'),
+      baseUrl: document.getElementById('baseUrl'),
+    };
+
+    // ====== HEALTH CHECK ======
+    async function runHealthCheck() {
+      const baseUrl = window.location.pathname.replace(/\/[^/]*\.html?$/, '/').replace(/\/$/, '') || '/';
+      DOM.baseUrl.textContent = baseUrl || '(repo root)';
+
+      const checks = [
+        { url: CONFIG_URL, label: 'config.json' },
+        { url: INSTRUMENT_URL, label: 'instrument.v1.json' },
+        { url: PROTOTYPES_URL, label: 'prototypes.v1.json' },
+      ];
+
+      DOM.healthCheckItems.innerHTML = '';
+
+      for (const check of checks) {
+        const item = document.createElement('div');
+        item.className = 'health-check-item';
+
+        const pathSpan = document.createElement('span');
+        pathSpan.className = 'health-check-path';
+        pathSpan.textContent = check.label;
+
+        const statusSpan = document.createElement('span');
+        statusSpan.className = 'health-check-status';
+
+        try {
+          const response = await fetch(check.url);
+          if (response.ok) {
+            statusSpan.textContent = 'OK';
+            statusSpan.classList.add('health-check-ok');
+          } else {
+            statusSpan.textContent = `${response.status}`;
+            statusSpan.classList.add('health-check-fail');
+          }
+        } catch (error) {
+          statusSpan.textContent = '⚠ ERR';
+          statusSpan.classList.add('health-check-fail');
+        }
+
+        item.appendChild(pathSpan);
+        item.appendChild(statusSpan);
+        DOM.healthCheckItems.appendChild(item);
+      }
+
+      DOM.healthCheckContainer.style.display = 'block';
+    }
+
+    // ====== DATA LOADING WITH IMPROVED ERROR HANDLING ======
+    async function loadConfig() {
+      try {
+        const response = await fetch(CONFIG_URL);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        config = await response.json();
+        return true;
+      } catch (error) {
+        const msg = `Error loading config from "${CONFIG_URL}": ${error.message}. Check repo path and GitHub Pages root.`;
+        addSystemMessage(msg);
+        console.error(msg, error);
+        return false;
+      }
+    }
+
+    async function loadInstrument() {
+      try {
+        const instrumentPath = config.data.instrument;
+        const url = `./data/${instrumentPath}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        instrument = await response.json();
+        extractBaseItems();
+        return true;
+      } catch (error) {
+        const msg = `Instrument not found at ./data/${config.data.instrument} — check repo path/case and GitHub Pages root. Error: ${error.message}`;
+        addSystemMessage(msg);
+        console.error(msg, error);
+        return false;
+      }
+    }
+
+    async function loadPrototypes() {
+      try {
+        const prototypesPath = config.data.prototypes;
+        const url = `./data/${prototypesPath}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        prototypes = await response.json();
+        return true;
+      } catch (error) {
+        const msg = `Prototypes not found at ./data/${config.data.prototypes} — check repo path/case and GitHub Pages root. Error: ${error.message}`;
+        addSystemMessage(msg);
+        console.error(msg, error);
+        return false;
+      }
+    }
+
+    function extractBaseItems() {
+      baseItems = (instrument.items || []).filter(item => !item.isFollowup);
+    }
+
+    async function initializeApp() {
+      await runHealthCheck();
+
+      const configLoaded = await loadConfig();
+      if (!configLoaded) return;
+
+      const instrumentLoaded = await loadInstrument();
+      if (!instrumentLoaded) return;
+
+      const prototypesLoaded = await loadPrototypes();
+      if (!prototypesLoaded) return;
+
+      showDisclaimer();
+      restoreFromLocalStorage();
+      DOM.sendBtn.addEventListener('click', handleSend);
+      DOM.userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          handleSend();
+        }
+      });
+      DOM.resetBtn.addEventListener('click', handleReset);
+      DOM.exportBtn.addEventListener('click', handleExport);
+
+      addBotMessage(`Welcome to the ${config.app.name}. Type "start" to begin the assessment.`);
+    }
+
+    function showDisclaimer() {
+      if (config.ethics.showDisclaimer) {
+        const disclaimerEl = document.createElement('div');
+        disclaimerEl.className = 'disclaimer';
+        disclaimerEl.textContent = config.ethics.disclaimerText;
+        DOM.disclaimerContainer.appendChild(disclaimerEl);
+      }
+    }
+
+    function restoreFromLocalStorage() {
+      if (!config.assessment.resumeFromLocalStorage) return;
+
+      const stored = localStorage.getItem(config.storage.storageKey);
+      if (stored) {
+        try {
+          const data = JSON.parse(stored);
+          responses = data.responses || {};
+          currentItemIndex = data.currentItemIndex || 0;
+          assessmentStarted = data.assessmentStarted || false;
+          followupQueue = data.followupQueue || [];
+          currentScoring = data.currentScoring || null;
+
+          if (assessmentStarted && currentItemIndex < baseItems.length + followupQueue.length) {
+            addSystemMessage('Assessment resumed from previous session.');
+            assessmentStarted = true;
+            displayCurrentQuestion();
+          }
+        } catch (error) {
+          console.error('Error restoring from storage:', error);
+        }
+      }
+    }
+
+    function saveToLocalStorage() {
+      if (!config.storage.useLocalStorage) return;
+
+      const data = {
+        responses,
+        currentItemIndex,
+        assessmentStarted,
+        followupQueue,
+        currentScoring,
+      };
+      localStorage.setItem(config.storage.storageKey, JSON.stringify(data));
+    }
+
+    function addBotMessage(text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message bot';
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      bubble.textContent = text;
+      messageDiv.appendChild(bubble);
+      DOM.chatMessages.appendChild(messageDiv);
+      DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
+    }
+
+    function addUserMessage(text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message user';
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      bubble.textContent = text;
+      messageDiv.appendChild(bubble);
+      DOM.chatMessages.appendChild(messageDiv);
+      DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
+    }
+
+    function addSystemMessage(text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message system';
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      bubble.textContent = text;
+      messageDiv.appendChild(bubble);
+      DOM.chatMessages.appendChild(messageDiv);
+      DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
+    }
+
+    function displayCurrentQuestion() {
+      const allItems = [...baseItems, ...followupQueue.map(fqId => instrument.items.find(i => i.id === fqId))];
+      const currentItem = allItems[currentItemIndex];
+
+      if (!currentItem) {
+        finishAssessment();
+        return;
+      }
+
+      addBotMessage(currentItem.question);
+
+      DOM.pillsContainer.innerHTML = '';
+      DOM.userInput.style.display = 'none';
+      DOM.sendBtn.style.display = 'none';
+      DOM.pillsContainer.style.display = 'none';
+
+      if (currentItem.type === 'likert7') {
+        DOM.pillsContainer.style.display = 'flex';
+        for (let i = 1; i <= 7; i++) {
+          const pill = document.createElement('button');
+          pill.className = 'pill';
+          pill.textContent = i;
+          pill.addEventListener('click', () => handleLikertResponse(i, currentItem.id));
+          DOM.pillsContainer.appendChild(pill);
+        }
+      } else if (currentItem.type === 'text') {
+        DOM.userInput.style.display = 'block';
+        DOM.sendBtn.style.display = 'block';
+        DOM.userInput.placeholder = 'Type your response...';
+        DOM.userInput.value = '';
+        DOM.userInput.focus();
+      }
+
+      DOM.inputContainer.style.display = 'block';
+    }
+
+    function handleLikertResponse(value, itemId) {
+      responses[itemId] = value;
+      addUserMessage(String(value));
+      currentItemIndex++;
+      checkForFollowups();
+      saveToLocalStorage();
+      updateScoreboard();
+
+      setTimeout(() => {
+        displayCurrentQuestion();
+      }, 300);
+    }
+
+    function handleSend() {
+      const allItems = [...baseItems, ...followupQueue.map(fqId => instrument.items.find(i => i.id === fqId))];
+      const currentItem = allItems[currentItemIndex];
+
+      if (!currentItem) return;
+
+      const userText = DOM.userInput.value.trim();
+      if (!userText) return;
+
+      if (config.ui.startKeyword && userText.toLowerCase() === config.ui.startKeyword && !assessmentStarted) {
+        assessmentStarted = true;
+        addUserMessage(userText);
+        DOM.userInput.value = '';
+        saveToLocalStorage();
+        currentItemIndex = 0;
+        displayCurrentQuestion();
+        return;
+      }
+
+      if (currentItem.type === 'text') {
+        responses[currentItem.id] = userText;
+        addUserMessage(userText);
+        DOM.userInput.value = '';
+        currentItemIndex++;
+        checkForFollowups();
+        saveToLocalStorage();
+        updateScoreboard();
+
+        setTimeout(() => {
+          displayCurrentQuestion();
+        }, 300);
+      }
+    }
+
+    function checkForFollowups() {
+      if (!config.assessment.enableFollowups) return;
+
+      const scoring = calculateScoring();
+      if (!scoring) return;
+
+      const norms = scoring.normalized;
+
+      if (norms.ABD > 70 && !followupQueue.includes('FU_ABD_1') && instrument.items.find(i => i.id === 'FU_ABD_1')) {
+        followupQueue.push('FU_ABD_1');
+      }
+      if (norms.ENG > 70 && !followupQueue.includes('FU_ENG_1') && instrument.items.find(i => i.id === 'FU_ENG_1')) {
+        followupQueue.push('FU_ENG_1');
+      }
+      if (norms.CONTROL > 65 && !followupQueue.includes('FU_CTRL_1') && instrument.items.find(i => i.id === 'FU_CTRL_1')) {
+        followupQueue.push('FU_CTRL_1');
+      }
+      if (norms.ERASE > 65 && !followupQueue.includes('FU_ERASE_1') && instrument.items.find(i => i.id === 'FU_ERASE_1')) {
+        followupQueue.push('FU_ERASE_1');
+      }
+      if (norms.FLIGHT > 75 && !followupQueue.includes('FU_FLIGHT_1') && instrument.items.find(i => i.id === 'FU_FLIGHT_1')) {
+        followupQueue.push('FU_FLIGHT_1');
+      }
+    }
+
+    function calculateScoring() {
+      if (!instrument || !prototypes) return null;
+
+      const subfactorAverages = {};
+      const subfactorCounts = {};
+
+      for (const [itemId, value] of Object.entries(responses)) {
+        const item = instrument.items.find(i => i.id === itemId);
+        if (!item || !item.sub) continue;
+
+        const key = item.sub;
+        if (!subfactorAverages[key]) {
+          subfactorAverages[key] = 0;
+          subfactorCounts[key] = 0;
+        }
+        subfactorAverages[key] += value;
+        subfactorCounts[key]++;
+      }
+
+      const raw = {};
+      for (const key of Object.keys(subfactorAverages)) {
+        raw[key] = (subfactorAverages[key] / subfactorCounts[key] - 1) / 6 * 100;
+      }
+
+      const allValues = Object.values(raw);
+      const mean = allValues.reduce((a, b) => a + b, 0) / allValues.length;
+      const variance = allValues.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / allValues.length;
+      const stdDev = Math.sqrt(variance);
+
+      const normalized = {};
+      for (const key of Object.keys(raw)) {
+        const z = stdDev === 0 ? 0 : (raw[key] - mean) / stdDev;
+        normalized[key] = Math.max(0, Math.min(100, 50 + z * 15));
+      }
+
+      const archetypeScores = {};
+      for (const archetype of prototypes.archetypes || []) {
+        let totalError = 0;
+        let count = 0;
+        const profile = prototypes.profiles[archetype.id] || {};
+        for (const key of Object.keys(normalized)) {
+          const protoValue = profile[key] || 50;
+          totalError += Math.abs(normalized[key] - protoValue);
+          count++;
+        }
+        archetypeScores[archetype.id] = count > 0 ? totalError / count : 100;
+      }
+
+      const sortedArchetypes = Object.entries(archetypeScores).sort((a, b) => a[1] - b[1]);
+      const bestArchetype = sortedArchetypes[0][0];
+      const bestDist = sortedArchetypes[0][1];
+      const runnerUpDist = sortedArchetypes.length > 1 ? sortedArchetypes[1][1] : bestDist;
+
+      const denominator = config.assessment.confidenceSeparationDenominator || 18;
+      const rawConfidence = (runnerUpDist - bestDist) / denominator;
+      const confidence = Math.max(0, Math.min(1, rawConfidence));
+
+      return {
+        raw,
+        normalized,
+        archetypeScores,
+        bestArchetype,
+        confidence,
+      };
+    }
+
+    function updateScoreboard() {
+      const scoring = calculateScoring();
+      if (!scoring) {
+        DOM.archetypeName.textContent = '—';
+        DOM.confidenceLabel.textContent = '—';
+        return;
+      }
+
+      const archetype = (prototypes.archetypes || []).find(a => a.id === scoring.bestArchetype);
+      if (archetype) {
+        DOM.archetypeName.textContent = archetype.name;
+        DOM.archetypeSubtitle.textContent = archetype.description || '';
+      }
+
+      const confidencePercent = Math.round(scoring.confidence * 100);
+      DOM.confidenceFill.style.width = confidencePercent + '%';
+      DOM.confidenceLabel.textContent = confidencePercent + '%';
+
+      const baseAnswered = baseItems.filter(item => responses.hasOwnProperty(item.id)).length;
+      DOM.progressText.textContent = `${baseAnswered} / ${baseItems.length}`;
+      DOM.followupCount.textContent = followupQueue.length;
+
+      DOM.subfactorList.innerHTML = '';
+      for (const [key, value] of Object.entries(scoring.normalized)) {
+        const item = document.createElement('div');
+        item.className = 'subfactor-item';
+        item.innerHTML = `<span class="subfactor-key">${key}</span><span class="subfactor-value">${Math.round(value)}</span>`;
+        DOM.subfactorList.appendChild(item);
+      }
+    }
+
+    function finishAssessment() {
+      assessmentStarted = false;
+      currentItemIndex = 0;
+      followupQueue = [];
+
+      const finalScoring = calculateScoring();
+      if (finalScoring) {
+        const archetype = (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype);
+        addBotMessage(`Assessment complete! Your archetype is: ${archetype?.name || 'Unknown'} (${Math.round(finalScoring.confidence * 100)}% confidence).`);
+      } else {
+        addBotMessage('Assessment complete!');
+      }
+
+      DOM.inputContainer.style.display = 'none';
+      saveToLocalStorage();
+    }
+
+    function handleReset() {
+      if (confirm('Reset assessment and clear all responses?')) {
+        responses = {};
+        currentItemIndex = 0;
+        assessmentStarted = false;
+        followupQueue = [];
+        currentScoring = null;
+        localStorage.removeItem(config.storage.storageKey);
+        DOM.chatMessages.innerHTML = '';
+        DOM.inputContainer.style.display = 'none';
+        updateScoreboard();
+        addBotMessage(`${config.app.name} reset. Type "start" to begin a new assessment.`);
+      }
+    }
+
+    function handleExport() {
+      if (!config.ui.allowJsonExport) return;
+
+      const finalScoring = calculateScoring();
+      const archetype = finalScoring ? (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype) : null;
+
+      const exportData = {
+        timestamp: new Date().toISOString(),
+        appVersion: config.app.version,
+        responses,
+        scoring: finalScoring ? {
+          raw: finalScoring.raw,
+          normalized: finalScoring.normalized,
+          bestArchetype: finalScoring.bestArchetype,
+          archetypeName: archetype?.name || 'Unknown',
+          confidence: Math.round(finalScoring.confidence * 100),
+        } : null,
+      };
+
+      const dataStr = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([dataStr], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `eros-index-${Date.now()}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    initializeApp();
   </script>
 </body>
 </html>
