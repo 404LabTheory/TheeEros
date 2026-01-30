@@ -44,14 +44,17 @@ function scoreArchetype() {
   const { norm } = normalizeWithinPerson(raw);
 
   const dists = [];
+
   for (const arch of ARCHETYPES) {
     const proto = PROTOTYPES[arch] || {};
-    let sum = 0, wsum = 0;
+    let sum = 0;
+    let wsum = 0;
 
     for (const [k, target] of Object.entries(proto)) {
       const v = norm[k];
       if (v === null || v === undefined) continue;
-      const w = 1; // MVP weights
+
+      const w = 1; // MVP weight
       sum += w * Math.abs(v - target);
       wsum += w;
     }
@@ -66,7 +69,6 @@ function scoreArchetype() {
   const second = dists[1] || { arch: "—", dist: best.dist + 1 };
 
   const sep = Math.max(0, second.dist - best.dist);
-
   const denom =
     (window.__CFG__ && window.__CFG__.confidenceSeparationDenominator) || 18;
 
