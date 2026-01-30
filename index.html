@@ -688,13 +688,13 @@
         </div>
         <div class="chat-messages" id="chatMessages">
         </div>
-        <div class="chat-input-area">
+        <div class="chat-input-area" style="display: flex; flex-direction: column; gap: 12px;">
           <div id="disclaimerContainer"></div>
-          <div id="inputContainer">
+          <div id="inputContainer" style="display: flex; flex-direction: column; gap: 8px;">
             <div id="pillsContainer" class="pills-container" style="display: none;"></div>
-            <div class="input-group">
-              <input type="text" id="userInput" placeholder="Type 'start' to begin assessment...">
-              <button class="btn btn-primary" id="sendBtn">Send</button>
+            <div class="input-group" style="display: flex; gap: 8px;">
+              <input type="text" id="userInput" placeholder="Type 'start' to begin assessment..." style="flex: 1; padding: 10px 12px; border: 1px solid var(--border-light); background: white; font-size: 14px; border-radius: 2px;">
+              <button class="btn btn-primary" id="sendBtn" style="padding: 10px 16px;">Send</button>
             </div>
           </div>
         </div>
