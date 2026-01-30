@@ -1,151 +1,149 @@
 {
-  "version": "v1",
+  "version": "1.0",
   "archetypes": [
     {
       "id": "CONQUISTADOR",
-      "name": "The Conquistador",
-      "description": "Bold, independent, driven by novelty and autonomy."
+      "name": "Conquistador",
+      "description": "Strategic, ambitious, driven by achievement and dominance in relationships.",
+      "profiles": {
+        "ABD": 35,
+        "ENG": 55,
+        "CONTROL": 85,
+        "ERASE": 25,
+        "FLIGHT": 20
+      }
     },
     {
       "id": "SIREN",
-      "name": "The Siren",
-      "description": "Emotionally expressive, desires attention and validation."
+      "name": "Siren",
+      "description": "Alluring, emotionally complex, seeks intensity and admiration.",
+      "profiles": {
+        "ABD": 45,
+        "ENG": 80,
+        "CONTROL": 70,
+        "ERASE": 35,
+        "FLIGHT": 40
+      }
     },
     {
       "id": "MAGISTRATE",
-      "name": "The Magistrate",
-      "description": "Controlled, loyal, values stability and order."
+      "name": "Magistrate",
+      "description": "Fair, principled, values equity and clear agreements in relationships.",
+      "profiles": {
+        "ABD": 40,
+        "ENG": 35,
+        "CONTROL": 75,
+        "ERASE": 30,
+        "FLIGHT": 25
+      }
     },
     {
       "id": "DEVOTEE",
-      "name": "The Devotee",
-      "description": "Deeply devoted, self-sacrificing, emotionally enmeshed."
+      "name": "Devotee",
+      "description": "Loyal, self-sacrificing, deeply invested in relational continuity.",
+      "profiles": {
+        "ABD": 75,
+        "ENG": 30,
+        "CONTROL": 40,
+        "ERASE": 80,
+        "FLIGHT": 35
+      }
     },
     {
-      "id": "SAGE",
-      "name": "The Sage",
-      "description": "Reflective, analytical, seeks understanding and truth."
+      "id": "PALADIN",
+      "name": "Paladin",
+      "description": "Protective, principled, seeks to defend and elevate partners.",
+      "profiles": {
+        "ABD": 55,
+        "ENG": 45,
+        "CONTROL": 65,
+        "ERASE": 50,
+        "FLIGHT": 30
+      }
     },
     {
-      "id": "EXPLORER",
-      "name": "The Explorer",
-      "description": "Adventurous, curious, values growth and discovery."
+      "id": "ORACLE",
+      "name": "Oracle",
+      "description": "Intuitive, introspective, values depth and psychological understanding.",
+      "profiles": {
+        "ABD": 50,
+        "ENG": 50,
+        "CONTROL": 45,
+        "ERASE": 45,
+        "FLIGHT": 55
+      }
     },
     {
-      "id": "CAREGIVER",
-      "name": "The Caregiver",
-      "description": "Nurturing, supportive, finds meaning in serving others."
+      "id": "JESTER",
+      "name": "Jester",
+      "description": "Playful, adaptive, uses humor and lightness to navigate relationships.",
+      "profiles": {
+        "ABD": 40,
+        "ENG": 75,
+        "CONTROL": 35,
+        "ERASE": 40,
+        "FLIGHT": 60
+      }
     },
     {
-      "id": "LOVER",
-      "name": "The Lover",
-      "description": "Passionate, intimate, seeks deep emotional connection."
+      "id": "MUSE",
+      "name": "Muse",
+      "description": "Creative, inspiring, thrives on emotional and intellectual stimulation.",
+      "profiles": {
+        "ABD": 45,
+        "ENG": 70,
+        "CONTROL": 50,
+        "ERASE": 35,
+        "FLIGHT": 45
+      }
     },
     {
-      "id": "CREATOR",
-      "name": "The Creator",
-      "description": "Expressive, innovative, driven to bring new things into being."
+      "id": "SHAMAN",
+      "name": "Shaman",
+      "description": "Healer, transformative, seeks to integrate shadow and wholeness in love.",
+      "profiles": {
+        "ABD": 55,
+        "ENG": 55,
+        "CONTROL": 50,
+        "ERASE": 60,
+        "FLIGHT": 50
+      }
     },
     {
-      "id": "INNOCENT",
-      "name": "The Innocent",
-      "description": "Optimistic, trusting, seeks happiness and safety."
+      "id": "OASIS",
+      "name": "Oasis",
+      "description": "Nurturing, grounding, offers emotional refuge and stability.",
+      "profiles": {
+        "ABD": 65,
+        "ENG": 40,
+        "CONTROL": 55,
+        "ERASE": 70,
+        "FLIGHT": 35
+      }
     },
     {
-      "id": "SAGE_MENTOR",
-      "name": "The Sage Mentor",
-      "description": "Wise, principled, guided by knowledge and ethics."
+      "id": "TYRANT",
+      "name": "Tyrant",
+      "description": "Commanding, controlling, uses power to maintain dominance and security.",
+      "profiles": {
+        "ABD": 60,
+        "ENG": 50,
+        "CONTROL": 90,
+        "ERASE": 45,
+        "FLIGHT": 25
+      }
     },
     {
-      "id": "EVERYMAN",
-      "name": "The Everyman",
-      "description": "Grounded, relatable, values belonging and community."
+      "id": "MARTYR",
+      "name": "Martyr",
+      "description": "Self-effacing, sacrificial, finds identity through relational suffering.",
+      "profiles": {
+        "ABD": 80,
+        "ENG": 25,
+        "CONTROL": 30,
+        "ERASE": 85,
+        "FLIGHT": 65
+      }
     }
-  ],
-  "profiles": {
-    "CONQUISTADOR": {
-      "ABD": 40,
-      "ENG": 75,
-      "CONTROL": 60,
-      "ERASE": 30,
-      "FLIGHT": 70
-    },
-    "SIREN": {
-      "ABD": 75,
-      "ENG": 50,
-      "CONTROL": 45,
-      "ERASE": 40,
-      "FLIGHT": 55
-    },
-    "MAGISTRATE": {
-      "ABD": 35,
-      "ENG": 65,
-      "CONTROL": 80,
-      "ERASE": 35,
-      "FLIGHT": 40
-    },
-    "DEVOTEE": {
-      "ABD": 85,
-      "ENG": 45,
-      "CONTROL": 30,
-      "ERASE": 75,
-      "FLIGHT": 25
-    },
-    "SAGE": {
-      "ABD": 30,
-      "ENG": 40,
-      "CONTROL": 55,
-      "ERASE": 50,
-      "FLIGHT": 45
-    },
-    "EXPLORER": {
-      "ABD": 50,
-      "ENG": 70,
-      "CONTROL": 55,
-      "ERASE": 25,
-      "FLIGHT": 80
-    },
-    "CAREGIVER": {
-      "ABD": 65,
-      "ENG": 40,
-      "CONTROL": 40,
-      "ERASE": 70,
-      "FLIGHT": 30
-    },
-    "LOVER": {
-      "ABD": 80,
-      "ENG": 60,
-      "CONTROL": 35,
-      "ERASE": 45,
-      "FLIGHT": 50
-    },
-    "CREATOR": {
-      "ABD": 45,
-      "ENG": 75,
-      "CONTROL": 65,
-      "ERASE": 35,
-      "FLIGHT": 60
-    },
-    "INNOCENT": {
-      "ABD": 60,
-      "ENG": 55,
-      "CONTROL": 40,
-      "ERASE": 30,
-      "FLIGHT": 35
-    },
-    "SAGE_MENTOR": {
-      "ABD": 25,
-      "ENG": 50,
-      "CONTROL": 70,
-      "ERASE": 55,
-      "FLIGHT": 40
-    },
-    "EVERYMAN": {
-      "ABD": 55,
-      "ENG": 45,
-      "CONTROL": 50,
-      "ERASE": 45,
-      "FLIGHT": 50
-    }
-  }
+  ]
 }

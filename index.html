@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eros Index Chatbot</title>
+  <title>Eros Index Assessment</title>
   <style>
     * {
       margin: 0;
@@ -11,1466 +11,1354 @@
       box-sizing: border-box;
     }
 
-    :root {
-      --gold: #D4AF37;
-      --purple: #5B2C83;
-      --red: #8B1E2D;
-      --dark-bg: #2A1F2F;
-      --paper: #EBE7DE;
-      --text-dark: #1A1410;
-      --text-light: #5A5050;
-      --border-light: #D0CCBF;
+    body {
+      font-family: 'Garamond', 'Georgia', serif;
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+      color: #e8e8e8;
+      overflow-x: hidden;
     }
 
-    html, body {
-      height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      color: var(--text-dark);
-      background-color: var(--dark-bg);
-      overflow: hidden;
-    }
-
+    /* Newspaper texture with aged paper effect */
     body::before {
       content: '';
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background-image:
-        linear-gradient(90deg, transparent 24%, rgba(255,255,255,.05) 25%, rgba(255,255,255,.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.05) 75%, rgba(255,255,255,.05) 76%, transparent 77%, transparent),
-        linear-gradient(0deg, transparent 24%, rgba(255,255,255,.05) 25%, rgba(255,255,255,.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.05) 75%, rgba(255,255,255,.05) 76%, transparent 77%, transparent),
-        linear-gradient(180deg, transparent 24%, rgba(255,255,255,.03) 25%, rgba(255,255,255,.03) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.03) 75%, rgba(255,255,255,.03) 76%, transparent 77%),
-        linear-gradient(90deg, transparent 24%, rgba(255,255,255,.03) 25%, rgba(255,255,255,.03) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.03) 75%, rgba(255,255,255,.03) 76%, transparent 77%);
-      background-size: 50px 50px, 50px 50px, 100px 100px, 100px 100px;
-      background-position: 0 0, 10px 10px, 0 0, 10px 10px;
-      background-color: #D8CCBA;
-      z-index: -2;
+      width: 100%;
+      height: 100%;
+      background: 
+        repeating-linear-gradient(90deg, rgba(139, 69, 19, 0.03) 0px, rgba(139, 69, 19, 0.03) 2px, transparent 2px, transparent 4px),
+        repeating-linear-gradient(0deg, rgba(139, 69, 19, 0.02) 0px, rgba(139, 69, 19, 0.02) 2px, transparent 2px, transparent 4px);
       pointer-events: none;
+      z-index: 1;
     }
 
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(ellipse at center, rgba(212,175,55,0.03) 0%, rgba(0,0,0,0.1) 100%);
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    .container {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
+    #app {
       position: relative;
-      z-index: 0;
+      z-index: 2;
+      min-height: 100vh;
+      padding: 20px;
     }
 
     header {
-      background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(91,44,131,0.1) 100%);
-      border-bottom: 2px solid var(--gold);
-      padding: 20px 30px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
-      flex-shrink: 0;
+      text-align: center;
+      margin-bottom: 40px;
       position: relative;
       z-index: 10;
     }
 
-    .health-check {
-      background: rgba(91,44,131,0.08);
-      border: 1px solid var(--border-light);
-      border-radius: 2px;
-      padding: 12px 16px;
-      margin-bottom: 12px;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    .health-check-title {
-      font-weight: 600;
-      color: var(--purple);
-      margin-bottom: 8px;
-      letter-spacing: 0.5px;
-    }
-
-    .health-check-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 4px 0;
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-    }
-
-    .health-check-path {
-      color: var(--text-dark);
-      flex: 1;
-    }
-
-    .health-check-status {
-      margin-left: 12px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 2px;
-      min-width: 35px;
-      text-align: center;
-    }
-
-    .health-check-ok {
-      background: rgba(76, 175, 80, 0.2);
-      color: #2d7a2d;
-    }
-
-    .health-check-fail {
-      background: rgba(244, 67, 54, 0.2);
-      color: #c62828;
-    }
-
-    .header-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-    }
-
-    .header-title {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 32px;
-      font-weight: bold;
-      color: var(--gold);
+    h1 {
+      font-size: 3em;
+      color: #D4AF37;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+      margin-bottom: 10px;
       letter-spacing: 2px;
-      text-transform: uppercase;
     }
 
-    .header-subtitle {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 12px;
-      color: var(--purple);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-top: 4px;
+    .subtitle {
+      font-size: 1.2em;
+      color: #B39DDB;
       font-style: italic;
+      margin-bottom: 20px;
     }
 
-    .header-meta {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 10px;
-      color: var(--text-light);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .main-content {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-      max-width: 1400px;
-      width: 100%;
+    .container {
+      max-width: 900px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Health Check Panel */
+    #healthCheck {
+      background: rgba(30, 30, 30, 0.9);
+      border: 2px solid #D4AF37;
       padding: 20px;
-      gap: 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+
+    .health-title {
+      font-size: 1.1em;
+      color: #D4AF37;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .health-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      padding: 8px 10px;
+      font-size: 0.95em;
+    }
+
+    .health-status {
+      font-weight: bold;
+    }
+
+    .status-ok {
+      color: #4CAF50;
+    }
+
+    .status-error {
+      color: #FF6B6B;
+    }
+
+    .base-url {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #D4AF37;
+      font-size: 0.9em;
+      color: #B39DDB;
+    }
+
+    /* Disclaimer */
+    #disclaimerText {
+      background: rgba(139, 30, 45, 0.2);
+      border-left: 4px solid #8B1E2D;
+      padding: 15px;
+      margin-bottom: 30px;
+      font-size: 0.95em;
+      line-height: 1.5;
+      color: #E8C4C8;
+      border-radius: 4px;
+    }
+
+    /* Main assessment area */
+    .main-content {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
       position: relative;
       z-index: 5;
     }
 
+    /* Chat section */
     .chat-section {
       flex: 1;
+      min-width: 300px;
+      background: rgba(30, 30, 30, 0.95);
+      border: 2px solid #5B2C83;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
-      background: var(--paper);
-      border: 1px solid var(--border-light);
-      border-left: 3px solid var(--gold);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      position: relative;
+      max-height: 600px;
     }
 
-    .chat-section::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(180deg, transparent, var(--purple), transparent);
-      opacity: 0.3;
-    }
-
-    .chat-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border-light);
-      background: linear-gradient(90deg, rgba(212,175,55,0.05), transparent);
-    }
-
-    .chat-header h2 {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 18px;
-      color: var(--purple);
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    .chat-messages {
+    #msgs {
       flex: 1;
       overflow-y: auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      margin-bottom: 15px;
+      padding-right: 10px;
+      min-height: 300px;
     }
 
     .message {
-      display: flex;
-      gap: 12px;
-      animation: slideInMessage 0.4s ease-out;
+      margin: 12px 0;
+      padding: 10px 12px;
+      border-radius: 6px;
+      line-height: 1.5;
+      font-size: 0.95em;
     }
 
-    @keyframes slideInMessage {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .message.bot {
-      justify-content: flex-start;
+    .message.system {
+      background: rgba(212, 175, 55, 0.1);
+      border-left: 3px solid #D4AF37;
+      color: #D4AF37;
     }
 
     .message.user {
-      justify-content: flex-end;
+      background: rgba(91, 44, 131, 0.15);
+      border-left: 3px solid #B39DDB;
+      color: #E8E8E8;
+      margin-left: 20px;
     }
 
-    .message-bubble {
-      max-width: 75%;
-      padding: 12px 16px;
-      border-radius: 2px;
-      font-size: 14px;
-      line-height: 1.5;
-      word-wrap: break-word;
+    /* Scrollbar styling */
+    #msgs::-webkit-scrollbar {
+      width: 8px;
     }
 
-    .message.bot .message-bubble {
-      background: rgba(212,175,55,0.1);
-      border-left: 3px solid var(--gold);
-      border-top: 1px solid var(--border-light);
-      color: var(--text-dark);
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 13px;
+    #msgs::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
     }
 
-    .message.user .message-bubble {
-      background: var(--purple);
-      color: var(--paper);
-      border-radius: 2px;
-      box-shadow: 0 2px 4px rgba(91,44,131,0.2);
+    #msgs::-webkit-scrollbar-thumb {
+      background: #D4AF37;
+      border-radius: 4px;
     }
 
-    .message.system .message-bubble {
-      background: rgba(139,30,45,0.1);
-      border: 1px solid var(--red);
-      color: var(--red);
-      text-align: center;
-      font-weight: 500;
-      max-width: 100%;
+    /* Response section */
+    .response-section {
+      margin-bottom: 15px;
     }
 
-    .chat-input-area {
-      padding: 16px 20px;
-      border-top: 2px solid var(--gold);
-      background: linear-gradient(180deg, transparent, rgba(212,175,55,0.05));
-      flex-shrink: 0;
+    .response-section label {
+      display: block;
+      margin-bottom: 8px;
+      color: #D4AF37;
+      font-size: 0.95em;
+      font-weight: bold;
     }
 
-    .input-group {
-      display: flex !important;
+    /* Likert-7 pills */
+    .likert-pills {
+      display: flex;
       gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .likert-pill {
+      width: 45px;
+      height: 45px;
+      border: 2px solid #5B2C83;
+      background: rgba(91, 44, 131, 0.1);
+      color: #E8E8E8;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      transition: all 0.2s;
     }
 
-    .input-group input[type="text"],
-    .input-group textarea {
-      flex: 1;
+    .likert-pill:hover {
+      background: rgba(91, 44, 131, 0.3);
+      border-color: #D4AF37;
+    }
+
+    .likert-pill.selected {
+      background: #D4AF37;
+      color: #2a2a2a;
+      border-color: #D4AF37;
+    }
+
+    /* Multiple choice radios */
+    .mc-option {
+      margin: 8px 0;
       padding: 10px 12px;
-      border: 1px solid var(--border-light);
-      background: rgba(255,255,255,0.6);
-      font-family: inherit;
-      font-size: 14px;
-      color: var(--text-dark);
-      border-radius: 2px;
-      resize: none;
-      min-height: 40px;
-      display: block !important;
-      visibility: visible !important;
+      background: rgba(91, 44, 131, 0.1);
+      border: 1px solid #5B2C83;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .input-group input[type="text"]:focus,
-    .input-group textarea:focus {
-      outline: 2px solid var(--gold);
-      outline-offset: 0;
-      background: white;
+    .mc-option:hover {
+      background: rgba(91, 44, 131, 0.2);
     }
 
-    #userInput {
-      display: block !important;
+    .mc-option input[type="radio"] {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .mc-option.selected {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: #D4AF37;
+    }
+
+    /* True/False toggle */
+    .tf-toggle {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .tf-btn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #5B2C83;
+      background: rgba(91, 44, 131, 0.1);
+      color: #E8E8E8;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .tf-btn:hover {
+      background: rgba(91, 44, 131, 0.3);
+    }
+
+    .tf-btn.selected {
+      background: #D4AF37;
+      color: #2a2a2a;
+      border-color: #D4AF37;
+    }
+
+    /* Text inputs */
+    #freeText,
+    .text-input,
+    .fill-in-input,
+    .short-answer-input,
+    .long-answer-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #5B2C83;
+      border-radius: 4px;
+      color: #E8E8E8;
+      font-family: 'Georgia', serif;
+      font-size: 0.95em;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    #freeText::placeholder,
+    .text-input::placeholder,
+    .fill-in-input::placeholder,
+    .short-answer-input::placeholder,
+    .long-answer-input::placeholder {
+      color: #888;
+    }
+
+    #freeText:focus,
+    .text-input:focus,
+    .fill-in-input:focus,
+    .short-answer-input:focus,
+    .long-answer-input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #D4AF37;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+
+    /* Short/Long answer textareas */
+    .short-answer-input,
+    .long-answer-input {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .long-answer-input {
+      min-height: 150px;
+    }
+
+    /* Input buttons section */
+    .input-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    #sendBtn,
+    #exportBtn,
+    #resetBtn,
+    #emailBtn {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #D4AF37;
+      background: rgba(212, 175, 55, 0.15);
+      color: #D4AF37;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.95em;
+      transition: all 0.2s;
+    }
+
+    #sendBtn:hover,
+    #exportBtn:hover,
+    #resetBtn:hover,
+    #emailBtn:hover {
+      background: rgba(212, 175, 55, 0.3);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    }
+
+    #sendBtn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Scoreboard section */
+    .scoreboard {
+      flex: 0 1 350px;
+      background: rgba(30, 30, 30, 0.95);
+      border: 2px solid #8B1E2D;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .score-title {
+      font-size: 1.2em;
+      color: #D4AF37;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    /* Progress pill */
+    #progressPill {
+      font-size: 0.9em;
+      color: #B39DDB;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgba(91, 44, 131, 0.1);
+      border-left: 3px solid #B39DDB;
+      border-radius: 4px;
+    }
+
+    #fuCount {
+      font-size: 0.9em;
+      color: #E8C4C8;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgba(139, 30, 45, 0.1);
+      border-left: 3px solid #8B1E2D;
+      border-radius: 4px;
+    }
+
+    /* Archetype preview */
+    #archPreview {
+      background: rgba(212, 175, 55, 0.1);
+      border-left: 4px solid #D4AF37;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+
+    .arch-name {
+      font-weight: bold;
+      color: #D4AF37;
+      margin-bottom: 5px;
+    }
+
+    .arch-desc {
+      color: #E8E8E8;
+      font-size: 0.85em;
+    }
+
+    /* Confidence meter */
+    #confPreview {
+      margin-bottom: 15px;
+    }
+
+    .conf-label {
+      color: #B39DDB;
+      font-size: 0.9em;
+      margin-bottom: 8px;
+    }
+
+    #confBar {
+      width: 100%;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #5B2C83;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .conf-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #5B2C83, #D4AF37);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .conf-value {
+      font-size: 0.85em;
+      color: #B39DDB;
+      text-align: right;
+    }
+
+    /* Subfactor snapshot */
+    #snapshot {
+      background: rgba(91, 44, 131, 0.1);
+      border-left: 4px solid #B39DDB;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      line-height: 1.6;
+      color: #E8E8E8;
+    }
+
+    .snapshot-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 6px 0;
+    }
+
+    .snapshot-label {
+      color: #B39DDB;
+    }
+
+    .snapshot-value {
+      color: #D4AF37;
+      font-weight: bold;
+    }
+
+    /* Modal for email */
+    #emailModal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #emailModal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #1a1a1a;
+      border: 2px solid #D4AF37;
+      border-radius: 8px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+
+    .modal-title {
+      font-size: 1.3em;
+      color: #D4AF37;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #5B2C83;
+      border-radius: 4px;
+      color: #E8E8E8;
+      font-size: 0.95em;
+      margin-bottom: 20px;
+    }
+
+    .modal-input::placeholder {
+      color: #888;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #D4AF37;
+      background: rgba(212, 175, 55, 0.15);
+      color: #D4AF37;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .modal-btn:hover {
+      background: rgba(212, 175, 55, 0.3);
+    }
+
+    .modal-btn.cancel {
+      background: rgba(91, 44, 131, 0.15);
+      border-color: #B39DDB;
+      color: #B39DDB;
+    }
+
+    .modal-btn.cancel:hover {
+      background: rgba(91, 44, 131, 0.3);
+    }
+
+    /* Word count helpers */
+    .helper-text {
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 5px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2em;
+      }
+
+      .main-content {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .scoreboard {
+        order: -1;
+      }
+
+      .chat-section {
+        max-height: none;
+      }
+
+      .likert-pills {
+        justify-content: center;
+      }
+
+      .likert-pill {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    /* Permanent input visibility (safety CSS) */
+    #inputContainer,
+    .chat-input-area {
+      display: flex !important;
       visibility: visible !important;
       opacity: 1 !important;
+      position: relative !important;
+      z-index: 100 !important;
     }
 
+    #userInput,
     #sendBtn {
       display: block !important;
       visibility: visible !important;
       opacity: 1 !important;
     }
-
-    #inputContainer {
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 8px !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-    }
-
-    .chat-input-area {
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 12px !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-    }
-
-    .pills-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .pill {
-      padding: 8px 14px;
-      border: 1px solid var(--border-light);
-      background: rgba(255,255,255,0.7);
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      color: var(--text-dark);
-    }
-
-    .pill:hover {
-      background: var(--gold);
-      color: var(--dark-bg);
-      border-color: var(--gold);
-      box-shadow: 0 2px 8px rgba(212,175,55,0.3);
-    }
-
-    .pill.selected {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--dark-bg);
-      box-shadow: 0 2px 8px rgba(212,175,55,0.4);
-    }
-
-    .btn {
-      padding: 10px 16px;
-      border: 1px solid var(--border-light);
-      background: rgba(255,255,255,0.7);
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      color: var(--text-dark);
-      font-family: inherit;
-    }
-
-    .btn:hover {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--dark-bg);
-      box-shadow: 0 2px 8px rgba(212,175,55,0.3);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn:focus {
-      outline: 2px solid var(--purple);
-      outline-offset: 2px;
-    }
-
-    .btn-primary {
-      background: var(--purple);
-      border-color: var(--purple);
-      color: var(--paper);
-    }
-
-    .btn-primary:hover {
-      background: #6B3B93;
-      border-color: #6B3B93;
-      color: var(--paper);
-      box-shadow: 0 2px 8px rgba(91,44,131,0.3);
-    }
-
-    .btn-danger {
-      background: var(--red);
-      border-color: var(--red);
-      color: var(--paper);
-    }
-
-    .btn-danger:hover {
-      background: #A42A3A;
-      border-color: #A42A3A;
-      color: var(--paper);
-    }
-
-    .scoreboard {
-      width: 320px;
-      background: var(--paper);
-      border: 1px solid var(--border-light);
-      border-left: 3px solid var(--purple);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    .scoreboard::before {
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(180deg, transparent, var(--gold), transparent);
-      opacity: 0.3;
-    }
-
-    .scoreboard-section {
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .scoreboard-section:last-child {
-      border-bottom: none;
-    }
-
-    .scoreboard-label {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--purple);
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .archetype-name {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 16px;
-      color: var(--gold);
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
-
-    .archetype-subtitle {
-      font-size: 11px;
-      color: var(--text-light);
-      margin-bottom: 8px;
-    }
-
-    .confidence-meter {
-      height: 8px;
-      background: var(--border-light);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-
-    .confidence-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--red), var(--gold));
-      transition: width 0.3s ease;
-      border-radius: 4px;
-    }
-
-    .confidence-label {
-      font-size: 11px;
-      color: var(--text-light);
-      margin-top: 4px;
-    }
-
-    .progress-text {
-      font-size: 13px;
-      color: var(--text-dark);
-      font-weight: 500;
-    }
-
-    .subfactor-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .subfactor-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px;
-      background: rgba(212,175,55,0.05);
-      border-left: 2px solid var(--gold);
-      border-radius: 2px;
-      font-size: 12px;
-    }
-
-    .subfactor-key {
-      color: var(--purple);
-      font-weight: 600;
-    }
-
-    .subfactor-value {
-      color: var(--text-dark);
-      font-weight: 500;
-    }
-
-    .controls {
-      display: flex;
-      gap: 8px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border-light);
-      flex-wrap: wrap;
-    }
-
-    .controls .btn {
-      flex: 1;
-      min-width: 120px;
-      font-size: 11px;
-      padding: 8px 10px;
-    }
-
-    @media (max-width: 1024px) {
-      .main-content {
-        flex-direction: column;
-      }
-
-      .scoreboard {
-        width: 100%;
-        height: 180px;
-        flex-direction: row;
-        gap: 12px;
-        padding: 12px;
-        overflow-x: auto;
-      }
-
-      .scoreboard-section {
-        flex-shrink: 0;
-        min-width: 200px;
-        padding-bottom: 0;
-        border-bottom: none;
-        border-right: 1px solid var(--border-light);
-        padding-right: 12px;
-      }
-
-      .scoreboard-section:last-child {
-        border-right: none;
-      }
-
-      .message-bubble {
-        max-width: 85%;
-      }
-
-      .header-title {
-        font-size: 24px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .main-content {
-        padding: 12px;
-        gap: 12px;
-      }
-
-      .chat-section {
-        border-left: 2px solid var(--gold);
-      }
-
-      .scoreboard {
-        height: auto;
-        flex-direction: column;
-        gap: 12px;
-        padding: 12px;
-      }
-
-      .scoreboard-section {
-        border-right: none;
-        border-bottom: 1px solid var(--border-light);
-        padding-right: 0;
-        padding-bottom: 12px;
-      }
-
-      .scoreboard-section:last-child {
-        border-bottom: none;
-      }
-
-      .message-bubble {
-        max-width: 90%;
-      }
-
-      .header-title {
-        font-size: 20px;
-      }
-
-      .chat-messages {
-        padding: 12px;
-      }
-
-      .chat-input-area {
-        padding: 12px;
-      }
-
-      .pills-container {
-        gap: 6px;
-      }
-
-      .pill {
-        padding: 6px 10px;
-        font-size: 12px;
-      }
-    }
-
-    .disclaimer {
-      background: rgba(139,30,45,0.1);
-      border: 1px solid var(--red);
-      border-radius: 2px;
-      padding: 12px;
-      font-size: 11px;
-      color: var(--red);
-      margin-bottom: 12px;
-      line-height: 1.4;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border: 2px solid rgba(212,175,55,0.3);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .error-message {
-      background: rgba(139,30,45,0.15);
-      border-left: 3px solid var(--red);
-      padding: 12px;
-      color: var(--red);
-      border-radius: 2px;
-      font-size: 12px;
-      line-height: 1.4;
-    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div id="app">
     <header>
-      <div class="header-inner">
-        <div>
-          <div class="header-title">Eros Index</div>
-          <div class="header-subtitle">Interactive Assessment Chatbot</div>
-          <div class="header-meta">An exploration of psychological archetypes through conversational inquiry</div>
-        </div>
-      </div>
-      <div id="healthCheckContainer" class="health-check" style="display: none;">
-        <div class="health-check-title">Health Check — Data File Status</div>
-        <div id="healthCheckItems"></div>
-        <div style="margin-top: 8px; font-size: 10px; color: var(--text-light);">
-          Base URL: <span id="baseUrl" style="font-family: 'Courier New', monospace;"></span>
-        </div>
-      </div>
+      <h1>EROS INDEX</h1>
+      <p class="subtitle">Assessment of Relational Orientation &amp; Sexual Expression</p>
     </header>
 
-    <div class="main-content">
-      <div class="chat-section">
-        <div class="chat-header">
-          <h2>Assessment Dialog</h2>
+    <div class="container">
+      <div id="healthCheck">
+        <div class="health-title">System Status</div>
+        <div class="health-item">
+          <span>config.json</span>
+          <span class="health-status" id="health-config">Loading…</span>
         </div>
-        <div class="chat-messages" id="chatMessages">
+        <div class="health-item">
+          <span>instrument.v1.json</span>
+          <span class="health-status" id="health-instrument">Loading…</span>
         </div>
-        <div class="chat-input-area">
-          <div id="disclaimerContainer"></div>
-          <div id="inputContainer">
-            <div id="pillsContainer" class="pills-container" style="display: none;"></div>
-            <div class="input-group">
-              <input type="text" id="userInput" placeholder="Type 'start' to begin assessment...">
-              <button class="btn btn-primary" id="sendBtn">Send</button>
+        <div class="health-item">
+          <span>prototypes.v1.json</span>
+          <span class="health-status" id="health-prototypes">Loading…</span>
+        </div>
+        <div class="base-url">
+          <strong>Base URL:</strong> <span id="baseUrl">—</span>
+        </div>
+      </div>
+
+      <div id="disclaimerText"></div>
+
+      <div class="main-content">
+        <!-- Chat section -->
+        <div class="chat-section">
+          <div id="msgs"></div>
+          <div id="inputContainer" class="chat-input-area" style="display: flex; visibility: visible; opacity: 1;">
+            <div class="response-section" id="responseContainer" style="width: 100%;">
+              <input type="text" id="freeText" placeholder="Type your response…" style="display: none;">
+              <div id="optionsContainer"></div>
+            </div>
+            <div class="input-controls">
+              <button id="sendBtn">Send</button>
+              <button id="exportBtn">Export JSON</button>
+              <button id="resetBtn">Reset</button>
+              <button id="emailBtn">Email Results</button>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="scoreboard">
-        <div class="scoreboard-section">
-          <div class="scoreboard-label">Archetype Preview</div>
-          <div class="archetype-name" id="archetypeName">—</div>
-          <div class="archetype-subtitle" id="archetypeSubtitle"></div>
-        </div>
-
-        <div class="scoreboard-section">
-          <div class="scoreboard-label">Confidence</div>
-          <div class="confidence-meter">
-            <div class="confidence-fill" id="confidenceFill" style="width: 0%;"></div>
+        <!-- Scoreboard section -->
+        <div class="scoreboard">
+          <div class="score-title">Assessment Progress</div>
+          <div id="progressPill">Ready to begin. Type "start" to begin the assessment.</div>
+          <div id="fuCount" style="display: none;"></div>
+          <div id="archPreview" style="display: none;"></div>
+          <div id="confPreview" style="display: none;">
+            <div class="conf-label">Archetype Confidence</div>
+            <div id="confBar"><div class="conf-fill"></div></div>
+            <div class="conf-value" id="confValue">—</div>
           </div>
-          <div class="confidence-label" id="confidenceLabel">—</div>
-        </div>
-
-        <div class="scoreboard-section">
-          <div class="scoreboard-label">Progress</div>
-          <div class="progress-text" id="progressText">0 / 0</div>
-          <div style="font-size: 10px; color: var(--text-light); margin-top: 4px;">
-            <span id="followupCount">0</span> follow-ups queued
-          </div>
-        </div>
-
-        <div class="scoreboard-section">
-          <div class="scoreboard-label">Subfactor Snapshot</div>
-          <div class="subfactor-list" id="subfactorList">
-            <div style="font-size: 12px; color: var(--text-light);">No data yet</div>
-          </div>
-        </div>
-
-        <div class="controls">
-          <button class="btn btn-danger" id="resetBtn" style="flex: 1;">Reset</button>
-          <button class="btn" id="exportBtn" style="flex: 1;">Export</button>
-          <button class="btn" id="emailBtn" style="flex: 1;">Email</button>
+          <div id="snapshot" style="display: none;"></div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Email Modal -->
-  <div id="emailModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; flex-direction: column;">
-    <div style="background: var(--paper); padding: 30px; border-radius: 4px; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); border: 1px solid var(--border-light);">
-      <h3 style="color: var(--purple); margin-bottom: 16px; font-family: Georgia, serif;">Send Transcript to Email</h3>
-      <p style="color: var(--text-light); font-size: 12px; margin-bottom: 16px;">Your assessment responses and archetype result will be sent to this email address.</p>
-      <input type="email" id="emailInput" placeholder="your@email.com" style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 2px; margin-bottom: 12px; font-size: 14px;">
-      <div style="display: flex; gap: 8px;">
-        <button class="btn btn-primary" id="sendEmailBtn" style="flex: 1;">Send</button>
-        <button class="btn" id="cancelEmailBtn" style="flex: 1;">Cancel</button>
+  <div id="emailModal">
+    <div class="modal-content">
+      <div class="modal-title">Send Results</div>
+      <input type="email" id="emailInput" class="modal-input" placeholder="your@email.com">
+      <div class="modal-buttons">
+        <button class="modal-btn" id="sendEmailBtn">Send via Email</button>
+        <button class="modal-btn cancel" id="cancelEmailBtn">Cancel</button>
       </div>
-      <div id="emailStatus" style="margin-top: 12px; font-size: 12px; text-align: center; color: var(--text-light);"></div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-    const CONFIG_URL = './data/config.json';
-    const INSTRUMENT_URL = './data/instrument.v1.json';
-    const PROTOTYPES_URL = './data/prototypes.v1.json';
+    const app = {
+      config: null,
+      instrument: null,
+      prototypes: null,
+      currentIndex: 0,
+      baseItems: [],
+      followupQueue: [],
+      responses: {},
+      isAssessmentActive: false,
+      startTime: null,
 
-    let config = null;
-    let instrument = null;
-    let prototypes = null;
-    let responses = {};
-    let currentItemIndex = 0;
-    let assessmentStarted = false;
-    let baseItems = [];
-    let followupQueue = [];
-    let currentScoring = null;
-    let currentArchetype = null;
+      async init() {
+        await this.loadAllData();
+        this.setupEventListeners();
+        this.ensureInputVisible();
+        setInterval(() => this.ensureInputVisible(), 500);
+      },
 
-    const DOM = {
-      chatMessages: document.getElementById('chatMessages'),
-      userInput: document.getElementById('userInput'),
-      sendBtn: document.getElementById('sendBtn'),
-      pillsContainer: document.getElementById('pillsContainer'),
-      inputContainer: document.getElementById('inputContainer'),
-      disclaimerContainer: document.getElementById('disclaimerContainer'),
-      resetBtn: document.getElementById('resetBtn'),
-      exportBtn: document.getElementById('exportBtn'),
-      emailBtn: document.getElementById('emailBtn'),
-      archetypeName: document.getElementById('archetypeName'),
-      archetypeSubtitle: document.getElementById('archetypeSubtitle'),
-      confidenceFill: document.getElementById('confidenceFill'),
-      confidenceLabel: document.getElementById('confidenceLabel'),
-      progressText: document.getElementById('progressText'),
-      followupCount: document.getElementById('followupCount'),
-      subfactorList: document.getElementById('subfactorList'),
-      healthCheckContainer: document.getElementById('healthCheckContainer'),
-      healthCheckItems: document.getElementById('healthCheckItems'),
-      baseUrl: document.getElementById('baseUrl'),
-      emailModal: document.getElementById('emailModal'),
-      emailInput: document.getElementById('emailInput'),
-      sendEmailBtn: document.getElementById('sendEmailBtn'),
-      cancelEmailBtn: document.getElementById('cancelEmailBtn'),
-      emailStatus: document.getElementById('emailStatus'),
-    };
-
-    // ====== SAFETY: ENSURE TEXTBOX ALWAYS VISIBLE ======
-    function ensureInputVisible() {
-      // Force textbox to always be visible
-      DOM.inputContainer.style.display = 'flex';
-      DOM.inputContainer.style.visibility = 'visible';
-      DOM.inputContainer.style.opacity = '1';
-      
-      DOM.userInput.style.display = 'block';
-      DOM.userInput.style.visibility = 'visible';
-      DOM.userInput.style.opacity = '1';
-      
-      DOM.sendBtn.style.display = 'block';
-      DOM.sendBtn.style.visibility = 'visible';
-      DOM.sendBtn.style.opacity = '1';
-    }
-
-    // Run safety check every 500ms
-    setInterval(ensureInputVisible, 500);
-
-    // ====== EMAIL TRANSCRIPT ======
-    function compileTranscript() {
-      const finalScoring = calculateScoring();
-      const archetype = finalScoring ? (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype) : null;
-      const timestamp = new Date().toLocaleString();
-      
-      let transcript = `Eros Index Assessment - Transcript\n`;
-      transcript += `Generated: ${timestamp}\n\n`;
-      
-      if (archetype && finalScoring) {
-        transcript += `RESULTS:\n`;
-        transcript += `Archetype: ${archetype.name}\n`;
-        transcript += `Description: ${archetype.description}\n`;
-        transcript += `Confidence: ${Math.round(finalScoring.confidence * 100)}%\n\n`;
-        
-        transcript += `Subfactor Scores:\n`;
-        for (const [key, value] of Object.entries(finalScoring.normalized)) {
-          transcript += `  ${key}: ${Math.round(value)}/100\n`;
-        }
-        transcript += `\n`;
-      }
-      
-      transcript += `RESPONSES:\n`;
-      for (const [itemId, value] of Object.entries(responses)) {
-        const item = instrument.items.find(i => i.id === itemId);
-        if (item) {
-          transcript += `Q: ${item.question}\n`;
-          transcript += `A: ${value}\n\n`;
-        }
-      }
-      
-      return transcript;
-    }
-
-    function showEmailModal() {
-      DOM.emailModal.style.display = 'flex';
-      DOM.emailInput.focus();
-      DOM.emailStatus.textContent = '';
-      DOM.emailInput.value = '';
-    }
-
-    function hideEmailModal() {
-      DOM.emailModal.style.display = 'none';
-    }
-
-    async function sendTranscriptEmail() {
-      const email = DOM.emailInput.value.trim();
-      if (!email || !email.includes('@')) {
-        DOM.emailStatus.textContent = '❌ Please enter a valid email';
-        DOM.emailStatus.style.color = 'var(--red)';
-        return;
-      }
-
-      DOM.emailStatus.textContent = '📧 Sending...';
-      DOM.emailStatus.style.color = 'var(--text-light)';
-      DOM.sendEmailBtn.disabled = true;
-
-      try {
-        const transcript = compileTranscript();
-        const finalScoring = calculateScoring();
-        const archetype = finalScoring ? (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype) : null;
-
-        // Using EmailJS - requires public key setup
-        // For now, create downloadable email-ready format
-        const subject = `Eros Index Results - ${archetype?.name || 'Assessment'} Archetype`;
-        const body = encodeURIComponent(transcript);
-        
-        // Fallback: Open email client
-        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${body}`;
-        window.location.href = mailtoLink;
-
-        DOM.emailStatus.textContent = '✓ Opening email client...';
-        DOM.emailStatus.style.color = '#2d7a2d';
-        
-        setTimeout(() => {
-          hideEmailModal();
-        }, 1500);
-      } catch (error) {
-        DOM.emailStatus.textContent = '❌ Error: ' + error.message;
-        DOM.emailStatus.style.color = 'var(--red)';
-      } finally {
-        DOM.sendEmailBtn.disabled = false;
-      }
-    }
-
-    // ====== HEALTH CHECK ======
-    async function runHealthCheck() {
-      const baseUrl = window.location.pathname.replace(/\/[^/]*\.html?$/, '/').replace(/\/$/, '') || '/';
-      DOM.baseUrl.textContent = baseUrl || '(repo root)';
-
-      const checks = [
-        { url: CONFIG_URL, label: 'config.json' },
-        { url: INSTRUMENT_URL, label: 'instrument.v1.json' },
-        { url: PROTOTYPES_URL, label: 'prototypes.v1.json' },
-      ];
-
-      DOM.healthCheckItems.innerHTML = '';
-
-      for (const check of checks) {
-        const item = document.createElement('div');
-        item.className = 'health-check-item';
-
-        const pathSpan = document.createElement('span');
-        pathSpan.className = 'health-check-path';
-        pathSpan.textContent = check.label;
-
-        const statusSpan = document.createElement('span');
-        statusSpan.className = 'health-check-status';
+      async loadAllData() {
+        const baseUrl = window.location.origin + window.location.pathname.replace(/index\.html$/, '');
+        document.getElementById('baseUrl').textContent = baseUrl;
 
         try {
-          const response = await fetch(check.url);
-          if (response.ok) {
-            statusSpan.textContent = 'OK';
-            statusSpan.classList.add('health-check-ok');
-          } else {
-            statusSpan.textContent = `${response.status}`;
-            statusSpan.classList.add('health-check-fail');
-          }
-        } catch (error) {
-          statusSpan.textContent = '⚠ ERR';
-          statusSpan.classList.add('health-check-fail');
+          const configRes = await fetch('./data/config.json');
+          if (!configRes.ok) throw new Error(`HTTP ${configRes.status}`);
+          this.config = await configRes.json();
+          document.getElementById('health-config').textContent = 'OK';
+          document.getElementById('health-config').className = 'health-status status-ok';
+        } catch (e) {
+          document.getElementById('health-config').textContent = `Error: ${e.message}`;
+          document.getElementById('health-config').className = 'health-status status-error';
         }
 
-        item.appendChild(pathSpan);
-        item.appendChild(statusSpan);
-        DOM.healthCheckItems.appendChild(item);
-      }
-
-      DOM.healthCheckContainer.style.display = 'block';
-    }
-
-    // ====== DATA LOADING WITH IMPROVED ERROR HANDLING ======
-    async function loadConfig() {
-      try {
-        const response = await fetch(CONFIG_URL);
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-        config = await response.json();
-        return true;
-      } catch (error) {
-        const msg = `Error loading config from "${CONFIG_URL}": ${error.message}. Check repo path and GitHub Pages root.`;
-        addSystemMessage(msg);
-        console.error(msg, error);
-        return false;
-      }
-    }
-
-    async function loadInstrument() {
-      try {
-        const instrumentPath = config.data.instrument;
-        const url = `./data/${instrumentPath}`;
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-        instrument = await response.json();
-        extractBaseItems();
-        return true;
-      } catch (error) {
-        const msg = `Instrument not found at ./data/${config.data.instrument} — check repo path/case and GitHub Pages root. Error: ${error.message}`;
-        addSystemMessage(msg);
-        console.error(msg, error);
-        return false;
-      }
-    }
-
-    async function loadPrototypes() {
-      try {
-        const prototypesPath = config.data.prototypes;
-        const url = `./data/${prototypesPath}`;
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-        prototypes = await response.json();
-        return true;
-      } catch (error) {
-        const msg = `Prototypes not found at ./data/${config.data.prototypes} — check repo path/case and GitHub Pages root. Error: ${error.message}`;
-        addSystemMessage(msg);
-        console.error(msg, error);
-        return false;
-      }
-    }
-
-    function extractBaseItems() {
-      baseItems = instrument.items || [];
-    }
-
-    async function initializeApp() {
-      await runHealthCheck();
-
-      const configLoaded = await loadConfig();
-      if (!configLoaded) return;
-
-      const instrumentLoaded = await loadInstrument();
-      if (!instrumentLoaded) return;
-
-      const prototypesLoaded = await loadPrototypes();
-      if (!prototypesLoaded) return;
-
-      showDisclaimer();
-      restoreFromLocalStorage();
-      DOM.sendBtn.addEventListener('click', handleSend);
-      DOM.userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          handleSend();
-        }
-      });
-      DOM.resetBtn.addEventListener('click', handleReset);
-      DOM.exportBtn.addEventListener('click', handleExport);
-      DOM.emailBtn.addEventListener('click', showEmailModal);
-      DOM.sendEmailBtn.addEventListener('click', sendTranscriptEmail);
-      DOM.cancelEmailBtn.addEventListener('click', hideEmailModal);
-      
-      // Close modal on outside click
-      DOM.emailModal.addEventListener('click', (e) => {
-        if (e.target === DOM.emailModal) hideEmailModal();
-      });
-      
-      // Allow Enter key to send email
-      DOM.emailInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendTranscriptEmail();
-      });
-
-      addBotMessage(`Welcome to the ${config.app.name}.`);
-      addBotMessage(`I'm here to guide you through a psychological assessment exploring romantic archetypes.`);
-      addBotMessage(`Type "start" to begin when you're ready.`);
-    }
-
-    function showDisclaimer() {
-      if (config.ethics.showDisclaimer) {
-        const disclaimerEl = document.createElement('div');
-        disclaimerEl.className = 'disclaimer';
-        disclaimerEl.textContent = config.ethics.disclaimerText;
-        DOM.disclaimerContainer.appendChild(disclaimerEl);
-      }
-    }
-
-    function restoreFromLocalStorage() {
-      if (!config.assessment.resumeFromLocalStorage) return;
-
-      const stored = localStorage.getItem(config.storage.storageKey);
-      if (stored) {
         try {
-          const data = JSON.parse(stored);
-          responses = data.responses || {};
-          currentItemIndex = data.currentItemIndex || 0;
-          assessmentStarted = data.assessmentStarted || false;
-          followupQueue = data.followupQueue || [];
-          currentScoring = data.currentScoring || null;
+          const instRes = await fetch('./data/instrument.v1.json');
+          if (!instRes.ok) throw new Error(`HTTP ${instRes.status}`);
+          this.instrument = await instRes.json();
+          document.getElementById('health-instrument').textContent = 'OK';
+          document.getElementById('health-instrument').className = 'health-status status-ok';
+          this.baseItems = this.instrument.items.filter(item => !item.isFollowup);
+        } catch (e) {
+          document.getElementById('health-instrument').textContent = `Error: ${e.message}`;
+          document.getElementById('health-instrument').className = 'health-status status-error';
+        }
 
-          if (assessmentStarted && currentItemIndex < baseItems.length + followupQueue.length) {
-            addSystemMessage('Assessment resumed from previous session.');
-            assessmentStarted = true;
-            displayCurrentQuestion();
+        try {
+          const protRes = await fetch('./data/prototypes.v1.json');
+          if (!protRes.ok) throw new Error(`HTTP ${protRes.status}`);
+          this.prototypes = await protRes.json();
+          document.getElementById('health-prototypes').textContent = 'OK';
+          document.getElementById('health-prototypes').className = 'health-status status-ok';
+        } catch (e) {
+          document.getElementById('health-prototypes').textContent = `Error: ${e.message}`;
+          document.getElementById('health-prototypes').className = 'health-status status-error';
+        }
+
+        if (this.config && this.config.ethics && this.config.ethics.disclaimerText) {
+          document.getElementById('disclaimerText').textContent = this.config.ethics.disclaimerText;
+        }
+
+        this.loadFromLocalStorage();
+      },
+
+      setupEventListeners() {
+        document.getElementById('sendBtn').addEventListener('click', () => this.handleSend());
+        document.getElementById('exportBtn').addEventListener('click', () => this.exportJSON());
+        document.getElementById('resetBtn').addEventListener('click', () => this.resetAssessment());
+        document.getElementById('emailBtn').addEventListener('click', () => this.showEmailModal());
+        document.getElementById('sendEmailBtn').addEventListener('click', () => this.sendViaEmail());
+        document.getElementById('cancelEmailBtn').addEventListener('click', () => this.hideEmailModal());
+
+        document.getElementById('msgs').addEventListener('keypress', (e) => {
+          if (e.key === 'Enter' && e.ctrlKey) {
+            this.handleSend();
           }
-        } catch (error) {
-          console.error('Error restoring from storage:', error);
+        });
+
+        document.getElementById('freeText').addEventListener('keypress', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            this.handleSend();
+          }
+        });
+      },
+
+      ensureInputVisible() {
+        const container = document.getElementById('inputContainer');
+        const freeText = document.getElementById('freeText');
+        const sendBtn = document.getElementById('sendBtn');
+
+        if (container) {
+          container.style.display = 'flex';
+          container.style.visibility = 'visible';
+          container.style.opacity = '1';
         }
-      }
-    }
-
-    function saveToLocalStorage() {
-      if (!config.storage.useLocalStorage) return;
-
-      const data = {
-        responses,
-        currentItemIndex,
-        assessmentStarted,
-        followupQueue,
-        currentScoring,
-      };
-      localStorage.setItem(config.storage.storageKey, JSON.stringify(data));
-    }
-
-    function addBotMessage(text) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message bot';
-      const bubble = document.createElement('div');
-      bubble.className = 'message-bubble';
-      bubble.textContent = text;
-      messageDiv.appendChild(bubble);
-      DOM.chatMessages.appendChild(messageDiv);
-      DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
-    }
-
-    function addUserMessage(text) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message user';
-      const bubble = document.createElement('div');
-      bubble.className = 'message-bubble';
-      bubble.textContent = text;
-      messageDiv.appendChild(bubble);
-      DOM.chatMessages.appendChild(messageDiv);
-      DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
-    }
-
-    function addSystemMessage(text) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message system';
-      const bubble = document.createElement('div');
-      bubble.className = 'message-bubble';
-      bubble.textContent = text;
-      messageDiv.appendChild(bubble);
-      DOM.chatMessages.appendChild(messageDiv);
-      DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
-    }
-
-    function displayCurrentQuestion() {
-      const allItems = [...baseItems, ...followupQueue.map(fqId => (instrument.followups || []).find(i => i.id === fqId))];
-      const currentItem = allItems[currentItemIndex];
-
-      if (!currentItem) {
-        finishAssessment();
-        return;
-      }
-
-      // Add acknowledgment for previous response (except on first question)
-      if (currentItemIndex > 0) {
-        const previousItem = allItems[currentItemIndex - 1];
-        const responseValue = responses[previousItem.id];
-        if (responseValue !== undefined) {
-          const acknowledgments = [
-            "Thanks for sharing that.",
-            "I appreciate your honesty.",
-            "Got it. Moving on...",
-            "Understood.",
-            "Thank you.",
-            "That's helpful to know.",
-          ];
-          const ack = acknowledgments[Math.floor(Math.random() * acknowledgments.length)];
-          addBotMessage(ack);
+        if (freeText && freeText.style.display === 'none' && this.isAssessmentActive) {
+          freeText.style.display = 'block';
         }
-      }
+        if (sendBtn) {
+          sendBtn.style.display = 'block';
+          sendBtn.style.visibility = 'visible';
+        }
+      },
 
-      // Ask the next question
-      addBotMessage(currentItem.prompt);
+      addMessage(text, isUser = false) {
+        const msgsDiv = document.getElementById('msgs');
+        const msg = document.createElement('div');
+        msg.className = isUser ? 'message user' : 'message system';
+        msg.textContent = text;
+        msgsDiv.appendChild(msg);
+        msgsDiv.scrollTop = msgsDiv.scrollHeight;
+      },
 
-      DOM.pillsContainer.innerHTML = '';
-      DOM.userInput.style.display = 'none';
-      DOM.sendBtn.style.display = 'none';
-      DOM.pillsContainer.style.display = 'none';
+      handleSend() {
+        const currentItem = this.getCurrentItem();
+        if (!currentItem) return;
 
-      if (currentItem.type === 'likert7') {
-        DOM.pillsContainer.style.display = 'flex';
+        let response = null;
+
+        switch (currentItem.type) {
+          case 'likert7':
+            const selected = document.querySelector('.likert-pill.selected');
+            if (selected) {
+              response = parseInt(selected.textContent);
+              this.addMessage(`You answered: ${response}`, true);
+            } else {
+              this.addMessage('Please select a rating (1-7).', false);
+              return;
+            }
+            break;
+
+          case 'multiple_choice':
+            const mcSelected = document.querySelector('input[name="mc-option"]:checked');
+            if (mcSelected) {
+              response = parseInt(mcSelected.value);
+              this.addMessage(`You selected: ${currentItem.options[response]}`, true);
+            } else {
+              this.addMessage('Please select an option.', false);
+              return;
+            }
+            break;
+
+          case 'true_false':
+            const tfSelected = document.querySelector('.tf-btn.selected');
+            if (tfSelected) {
+              response = tfSelected.dataset.value === 'true';
+              this.addMessage(`You answered: ${response ? 'True' : 'False'}`, true);
+            } else {
+              this.addMessage('Please select True or False.', false);
+              return;
+            }
+            break;
+
+          case 'fill_in_blank':
+          case 'short_answer':
+          case 'long_answer':
+            const textInput = document.querySelector('textarea, .text-input, .fill-in-input, .short-answer-input, .long-answer-input');
+            if (textInput && textInput.value.trim()) {
+              response = textInput.value.trim();
+              this.addMessage(`Your response: "${response.substring(0, 50)}${response.length > 50 ? '…' : ''}"`, true);
+            } else {
+              this.addMessage('Please provide a response.', false);
+              return;
+            }
+            break;
+        }
+
+        if (response !== null && response !== undefined) {
+          this.responses[currentItem.id] = response;
+          this.saveToLocalStorage();
+          this.currentIndex++;
+          this.displayCurrentQuestion();
+
+          if (!this.isAssessmentActive) {
+            this.isAssessmentActive = true;
+            this.startTime = Date.now();
+          }
+        }
+      },
+
+      getCurrentItem() {
+        if (this.followupQueue.length > 0) {
+          return this.followupQueue[0];
+        }
+        if (this.currentIndex < this.baseItems.length) {
+          return this.baseItems[this.currentIndex];
+        }
+        return null;
+      },
+
+      displayCurrentQuestion() {
+        const currentItem = this.getCurrentItem();
+
+        if (!currentItem) {
+          this.finishAssessment();
+          return;
+        }
+
+        const optionsContainer = document.getElementById('optionsContainer');
+        const freeText = document.getElementById('freeText');
+        optionsContainer.innerHTML = '';
+        freeText.style.display = 'none';
+        freeText.value = '';
+
+        const progressText = this.followupQueue.length > 0
+          ? `Follow-up ${this.currentIndex - this.baseItems.length + 1} of ${this.baseItems.length + this.followupQueue.length}`
+          : `Question ${this.currentIndex + 1} of ${this.baseItems.length}`;
+        document.getElementById('progressPill').textContent = progressText;
+
+        const question = document.createElement('div');
+        question.innerHTML = `<label>${currentItem.prompt}</label>`;
+        optionsContainer.appendChild(question);
+
+        switch (currentItem.type) {
+          case 'likert7':
+            this.renderLikert7(currentItem, optionsContainer);
+            break;
+          case 'multiple_choice':
+            this.renderMultipleChoice(currentItem, optionsContainer);
+            break;
+          case 'true_false':
+            this.renderTrueFalse(currentItem, optionsContainer);
+            break;
+          case 'fill_in_blank':
+          case 'short_answer':
+          case 'long_answer':
+            this.renderTextInput(currentItem, optionsContainer);
+            break;
+        }
+
+        this.updateScoreboard();
+      },
+
+      renderLikert7(item, container) {
+        const pillsDiv = document.createElement('div');
+        pillsDiv.className = 'likert-pills';
+
         for (let i = 1; i <= 7; i++) {
           const pill = document.createElement('button');
-          pill.className = 'pill';
+          pill.className = 'likert-pill';
           pill.textContent = i;
-          pill.addEventListener('click', () => handleLikertResponse(i, currentItem.id));
-          DOM.pillsContainer.appendChild(pill);
+          pill.addEventListener('click', () => {
+            document.querySelectorAll('.likert-pill').forEach(p => p.classList.remove('selected'));
+            pill.classList.add('selected');
+          });
+
+          if (this.responses[item.id] === i) {
+            pill.classList.add('selected');
+          }
+
+          pillsDiv.appendChild(pill);
         }
-      } else if (currentItem.type === 'text') {
-        DOM.userInput.style.display = 'block';
-        DOM.sendBtn.style.display = 'block';
-        DOM.userInput.placeholder = 'Type your response...';
-        DOM.userInput.value = '';
-        DOM.userInput.focus();
-      }
 
-      DOM.inputContainer.style.display = 'block';
-    }
+        container.appendChild(pillsDiv);
+      },
 
-    function handleLikertResponse(value, itemId) {
-      responses[itemId] = value;
-      addUserMessage(String(value));
-      
-      // Add brief acknowledgment
-      const responses_list = ["Noted.", "Got it.", "Thank you.", "Understood."];
-      addBotMessage(responses_list[Math.floor(Math.random() * responses_list.length)]);
-      
-      currentItemIndex++;
-      checkForFollowups();
-      saveToLocalStorage();
-      updateScoreboard();
+      renderMultipleChoice(item, container) {
+        item.options.forEach((option, idx) => {
+          const label = document.createElement('label');
+          label.className = 'mc-option';
 
-      setTimeout(() => {
-        displayCurrentQuestion();
-      }, 600);
-    }
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = 'mc-option';
+          radio.value = idx;
+          if (this.responses[item.id] === idx) {
+            radio.checked = true;
+            label.classList.add('selected');
+          }
 
-    function handleSend() {
-      const allItems = [...baseItems, ...followupQueue.map(fqId => (instrument.followups || []).find(i => i.id === fqId))];
-      const currentItem = allItems[currentItemIndex];
+          radio.addEventListener('change', () => {
+            document.querySelectorAll('.mc-option').forEach(o => o.classList.remove('selected'));
+            label.classList.add('selected');
+          });
 
-      if (!currentItem) return;
+          label.appendChild(radio);
+          label.appendChild(document.createTextNode(option));
+          container.appendChild(label);
+        });
+      },
 
-      const userText = DOM.userInput.value.trim();
-      if (!userText) return;
+      renderTrueFalse(item, container) {
+        const toggleDiv = document.createElement('div');
+        toggleDiv.className = 'tf-toggle';
 
-      if (config.ui.startKeyword && userText.toLowerCase() === config.ui.startKeyword && !assessmentStarted) {
-        assessmentStarted = true;
-        addUserMessage(userText);
-        DOM.userInput.value = '';
-        saveToLocalStorage();
-        currentItemIndex = 0;
-        
-        addBotMessage(`Great! Let's begin. There are ${baseItems.length} core questions, with potential follow-ups based on your responses.`);
-        addBotMessage(`I'll ask for your level of agreement on a scale of 1-7, or for open-ended responses.`);
-        
-        setTimeout(() => {
-          displayCurrentQuestion();
-        }, 800);
-        return;
-      }
+        ['True', 'False'].forEach((text, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'tf-btn';
+          btn.textContent = text;
+          btn.dataset.value = text.toLowerCase();
 
-      if (currentItem.type === 'text') {
-        responses[currentItem.id] = userText;
-        addUserMessage(userText);
-        DOM.userInput.value = '';
-        
-        // Add acknowledgment
-        const acks = ["Thank you for that insight.", "Interesting. Moving on...", "I appreciate that detail.", "Got it."];
-        addBotMessage(acks[Math.floor(Math.random() * acks.length)]);
-        
-        currentItemIndex++;
-        checkForFollowups();
-        saveToLocalStorage();
-        updateScoreboard();
+          if ((text === 'True' && this.responses[item.id] === true) ||
+              (text === 'False' && this.responses[item.id] === false)) {
+            btn.classList.add('selected');
+          }
 
-        setTimeout(() => {
-          displayCurrentQuestion();
-        }, 600);
-      }
-    }
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+          });
 
-    function checkForFollowups() {
-      if (!config.assessment.enableFollowups) return;
+          toggleDiv.appendChild(btn);
+        });
 
-      const scoring = calculateScoring();
-      if (!scoring) return;
+        container.appendChild(toggleDiv);
+      },
 
-      const norms = scoring.normalized;
+      renderTextInput(item, container) {
+        const input = document.createElement('textarea');
+        input.className = 'text-input';
 
-      if (norms.ABD > 70 && !followupQueue.includes('FU_ABD_1') && (instrument.followups || []).find(i => i.id === 'FU_ABD_1')) {
-        followupQueue.push('FU_ABD_1');
-      }
-      if (norms.ENG > 70 && !followupQueue.includes('FU_ENG_1') && (instrument.followups || []).find(i => i.id === 'FU_ENG_1')) {
-        followupQueue.push('FU_ENG_1');
-      }
-      if (norms.CONTROL > 65 && !followupQueue.includes('FU_CTRL_1') && (instrument.followups || []).find(i => i.id === 'FU_CTRL_1')) {
-        followupQueue.push('FU_CTRL_1');
-      }
-      if (norms.ERASE > 65 && !followupQueue.includes('FU_ERASE_1') && (instrument.followups || []).find(i => i.id === 'FU_ERASE_1')) {
-        followupQueue.push('FU_ERASE_1');
-      }
-      if (norms.FLIGHT > 75 && !followupQueue.includes('FU_FLIGHT_1') && (instrument.followups || []).find(i => i.id === 'FU_FLIGHT_1')) {
-        followupQueue.push('FU_FLIGHT_1');
-      }
-    }
-
-    function calculateScoring() {
-      if (!instrument || !prototypes) return null;
-
-      const subfactorAverages = {};
-      const subfactorCounts = {};
-
-      for (const [itemId, value] of Object.entries(responses)) {
-        const item = instrument.items.find(i => i.id === itemId);
-        if (!item || !item.sub) continue;
-
-        const key = item.sub;
-        if (!subfactorAverages[key]) {
-          subfactorAverages[key] = 0;
-          subfactorCounts[key] = 0;
+        if (item.type === 'fill_in_blank') {
+          input.className = 'fill-in-input';
+          input.rows = 2;
+          input.placeholder = 'Your answer (5-10 words)…';
+        } else if (item.type === 'short_answer') {
+          input.className = 'short-answer-input';
+          input.rows = 3;
+          input.placeholder = 'Your answer (2-4 sentences)…';
+        } else if (item.type === 'long_answer') {
+          input.className = 'long-answer-input';
+          input.rows = 6;
+          input.placeholder = 'Tell your story (150-300 words)…';
         }
-        subfactorAverages[key] += value;
-        subfactorCounts[key]++;
-      }
 
-      const raw = {};
-      for (const key of Object.keys(subfactorAverages)) {
-        raw[key] = (subfactorAverages[key] / subfactorCounts[key] - 1) / 6 * 100;
-      }
-
-      const allValues = Object.values(raw);
-      const mean = allValues.reduce((a, b) => a + b, 0) / allValues.length;
-      const variance = allValues.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / allValues.length;
-      const stdDev = Math.sqrt(variance);
-
-      const normalized = {};
-      for (const key of Object.keys(raw)) {
-        const z = stdDev === 0 ? 0 : (raw[key] - mean) / stdDev;
-        normalized[key] = Math.max(0, Math.min(100, 50 + z * 15));
-      }
-
-      const archetypeScores = {};
-      for (const archetype of prototypes.archetypes || []) {
-        let totalError = 0;
-        let count = 0;
-        const profile = prototypes.profiles[archetype.id] || {};
-        for (const key of Object.keys(normalized)) {
-          const protoValue = profile[key] || 50;
-          totalError += Math.abs(normalized[key] - protoValue);
-          count++;
+        if (this.responses[item.id]) {
+          input.value = this.responses[item.id];
         }
-        archetypeScores[archetype.id] = count > 0 ? totalError / count : 100;
+
+        container.appendChild(input);
+      },
+
+      finishAssessment() {
+        this.isAssessmentActive = false;
+        document.getElementById('inputContainer').style.visibility = 'hidden';
+
+        this.addMessage('Assessment complete! Your results are ready.', false);
+
+        const scores = this.calculateScores();
+        const archetype = this.matchArchetype(scores);
+
+        document.getElementById('archPreview').innerHTML = `
+          <div class="arch-name">${archetype.archetype.name}</div>
+          <div class="arch-desc">${archetype.archetype.description}</div>
+        `;
+        document.getElementById('archPreview').style.display = 'block';
+
+        const confValue = Math.min(1, Math.max(0, archetype.confidence));
+        document.querySelector('.conf-fill').style.width = (confValue * 100) + '%';
+        document.getElementById('confValue').textContent = (confValue * 100).toFixed(1) + '%';
+        document.getElementById('confPreview').style.display = 'block';
+
+        const snapshotHTML = Object.entries(scores.normalized).map(([key, val]) =>
+          `<div class="snapshot-item"><span class="snapshot-label">${key}:</span><span class="snapshot-value">${val.toFixed(1)}</span></div>`
+        ).join('');
+        document.getElementById('snapshot').innerHTML = snapshotHTML;
+        document.getElementById('snapshot').style.display = 'block';
+
+        document.getElementById('progressPill').textContent = 'Assessment Complete';
+      },
+
+      calculateScores() {
+        const raw = {};
+        const items = this.instrument.items;
+
+        for (const subfactor of this.instrument.subfactors) {
+          const subItems = items.filter(item => item.sub === subfactor && item.type === 'likert7');
+          const validResponses = subItems
+            .map(item => this.responses[item.id])
+            .filter(resp => resp !== undefined)
+            .map(resp => ((resp - 1) / 6) * 100);
+
+          if (validResponses.length > 0) {
+            raw[subfactor] = validResponses.reduce((a, b) => a + b) / validResponses.length;
+          }
+        }
+
+        const normalized = {};
+        const validSubfactors = Object.keys(raw);
+
+        for (const subfactor of validSubfactors) {
+          if (validSubfactors.length >= 3) {
+            const mean = Object.values(raw).reduce((a, b) => a + b) / validSubfactors.length;
+            const std = Math.sqrt(
+              Object.values(raw).reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / validSubfactors.length
+            );
+
+            let z = std > 0 ? (raw[subfactor] - mean) / std : 0;
+            normalized[subfactor] = Math.max(0, Math.min(100, 50 + z * 15));
+          } else {
+            normalized[subfactor] = raw[subfactor] || 0;
+          }
+        }
+
+        return { raw, normalized };
+      },
+
+      matchArchetype(scores) {
+        let bestArchetype = null;
+        let bestDistance = Infinity;
+        let runnerUpDistance = Infinity;
+
+        for (const arch of this.prototypes.archetypes) {
+          const distance = this.calculateMAE(scores.normalized, arch.profiles);
+
+          if (distance < bestDistance) {
+            runnerUpDistance = bestDistance;
+            bestDistance = distance;
+            bestArchetype = arch;
+          } else if (distance < runnerUpDistance) {
+            runnerUpDistance = distance;
+          }
+        }
+
+        const denominator = this.config.assessment.confidenceSeparationDenominator || 18;
+        const confidence = Math.max(0, Math.min(1, (runnerUpDistance - bestDistance) / denominator));
+
+        return {
+          archetype: bestArchetype,
+          distance: bestDistance,
+          confidence: confidence
+        };
+      },
+
+      calculateMAE(normalized, prototype) {
+        const keys = Object.keys(normalized);
+        if (keys.length === 0) return Infinity;
+
+        const sumError = keys.reduce((sum, key) => {
+          const protVal = prototype[key] || 0;
+          return sum + Math.abs(normalized[key] - protVal);
+        }, 0);
+
+        return sumError / keys.length;
+      },
+
+      updateScoreboard() {
+        if (this.currentIndex > 0) {
+          const scores = this.calculateScores();
+          const archetype = this.matchArchetype(scores);
+
+          const confValue = Math.min(1, Math.max(0, archetype.confidence));
+          document.querySelector('.conf-fill').style.width = (confValue * 100) + '%';
+          document.getElementById('confValue').textContent = (confValue * 100).toFixed(1) + '%';
+
+          if (this.config.assessment.showArchetypePreview) {
+            document.getElementById('archPreview').innerHTML = `
+              <div class="arch-name">${archetype.archetype.name}</div>
+              <div class="arch-desc">${archetype.archetype.description}</div>
+            `;
+            document.getElementById('archPreview').style.display = 'block';
+          }
+
+          if (this.config.assessment.showLiveSubfactorSnapshot) {
+            const snapshotHTML = Object.entries(scores.normalized).map(([key, val]) =>
+              `<div class="snapshot-item"><span class="snapshot-label">${key}:</span><span class="snapshot-value">${val.toFixed(1)}</span></div>`
+            ).join('');
+            document.getElementById('snapshot').innerHTML = snapshotHTML;
+            document.getElementById('snapshot').style.display = 'block';
+          }
+        }
+
+        this.checkForFollowups();
+      },
+
+      checkForFollowups() {
+        if (!this.config.assessment.enableFollowups || this.currentIndex < this.baseItems.length) {
+          return;
+        }
+
+        const scores = this.calculateScores();
+        const thresholds = {
+          ABD: 70,
+          ENG: 70,
+          CONTROL: 65,
+          ERASE: 65,
+          FLIGHT: 75
+        };
+
+        for (const followup of (this.instrument.followups || [])) {
+          if (!this.responses[followup.id]) {
+            const sub = followup.sub;
+            const threshold = thresholds[sub] || 70;
+
+            if (scores.normalized[sub] !== undefined && scores.normalized[sub] > threshold) {
+              if (!this.followupQueue.find(fu => fu.id === followup.id)) {
+                this.followupQueue.push(followup);
+              }
+            }
+          }
+        }
+
+        if (this.followupQueue.length > 0) {
+          document.getElementById('fuCount').textContent = `${this.followupQueue.length} follow-up question(s) queued.`;
+          document.getElementById('fuCount').style.display = 'block';
+        }
+      },
+
+      exportJSON() {
+        const scores = this.calculateScores();
+        const archetype = this.matchArchetype(scores);
+
+        const exportData = {
+          timestamp: new Date().toISOString(),
+          duration_seconds: this.startTime ? Math.round((Date.now() - this.startTime) / 1000) : 0,
+          responses: this.responses,
+          scores_raw: scores.raw,
+          scores_normalized: scores.normalized,
+          archetype_match: archetype.archetype.name,
+          confidence: archetype.confidence,
+          visited_items: this.currentIndex + this.followupQueue.filter(fu => this.responses[fu.id]).length
+        };
+
+        const json = JSON.stringify(exportData, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `eros-index-${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        this.addMessage('Assessment data exported as JSON.', false);
+      },
+
+      showEmailModal() {
+        document.getElementById('emailModal').classList.add('active');
+      },
+
+      hideEmailModal() {
+        document.getElementById('emailModal').classList.remove('active');
+        document.getElementById('emailInput').value = '';
+      },
+
+      sendViaEmail() {
+        const email = document.getElementById('emailInput').value.trim();
+        if (!email) {
+          this.addMessage('Please enter an email address.', false);
+          return;
+        }
+
+        const scores = this.calculateScores();
+        const archetype = this.matchArchetype(scores);
+        const transcript = this.generateTranscript();
+
+        const subject = encodeURIComponent('Your Eros Index Assessment Results');
+        const body = encodeURIComponent(`
+Your Eros Index Assessment Results
+=================================
+
+Archetype: ${archetype.archetype.name}
+Confidence: ${(archetype.confidence * 100).toFixed(1)}%
+
+Normalized Scores:
+${Object.entries(scores.normalized).map(([k, v]) => `${k}: ${v.toFixed(1)}`).join('\n')}
+
+Assessment Transcript:
+${transcript}
+        `);
+
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        this.hideEmailModal();
+        this.addMessage('Email client opened with results.', false);
+      },
+
+      generateTranscript() {
+        return this.baseItems.map(item => {
+          if (this.responses[item.id] !== undefined) {
+            return `Q: ${item.prompt}\nA: ${this.responses[item.id]}\n`;
+          }
+          return '';
+        }).filter(Boolean).join('\n');
+      },
+
+      resetAssessment() {
+        if (confirm('Reset assessment and start over?')) {
+          this.currentIndex = 0;
+          this.responses = {};
+          this.followupQueue = [];
+          this.isAssessmentActive = false;
+          this.startTime = null;
+          document.getElementById('msgs').innerHTML = '';
+          document.getElementById('inputContainer').style.visibility = 'visible';
+          document.getElementById('archPreview').style.display = 'none';
+          document.getElementById('confPreview').style.display = 'none';
+          document.getElementById('snapshot').style.display = 'none';
+          document.getElementById('fuCount').style.display = 'none';
+          document.getElementById('progressPill').textContent = 'Ready to begin. Type "start" to start the assessment.';
+          this.saveToLocalStorage();
+          this.addMessage('Assessment reset. Type "start" to begin.', false);
+        }
+      },
+
+      saveToLocalStorage() {
+        if (this.config.storage.useLocalStorage) {
+          const state = {
+            currentIndex: this.currentIndex,
+            responses: this.responses,
+            followupQueue: this.followupQueue
+          };
+          localStorage.setItem(this.config.storage.storageKey, JSON.stringify(state));
+        }
+      },
+
+      loadFromLocalStorage() {
+        if (this.config && this.config.storage.useLocalStorage) {
+          const stored = localStorage.getItem(this.config.storage.storageKey);
+          if (stored) {
+            const state = JSON.parse(stored);
+            this.currentIndex = state.currentIndex || 0;
+            this.responses = state.responses || {};
+            this.followupQueue = state.followupQueue || [];
+          }
+        }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      app.init();
+
+      document.getElementById('msgs').addEventListener('click', (e) => {
+        const input = e.target.value || e.target.textContent;
+        if (input && input.toLowerCase() === 'start') {
+          if (!app.isAssessmentActive) {
+            app.isAssessmentActive = true;
+            app.startTime = Date.now();
+            app.currentIndex = 0;
+            app.responses = {};
+            app.addMessage('Assessment starting. Answer as honestly as possible.', false);
+            app.displayCurrentQuestion();
+          }
+        }
+      });
+
+      const freeText = document.getElementById('freeText');
+      if (freeText) {
+        freeText.addEventListener('input', (e) => {
+          if (e.target.value.toLowerCase() === 'start' && !app.isAssessmentActive) {
+            e.target.value = '';
+            app.isAssessmentActive = true;
+            app.startTime = Date.now();
+            app.currentIndex = 0;
+            app.responses = {};
+            app.addMessage('Assessment starting. Answer as honestly as possible.', false);
+            app.displayCurrentQuestion();
+          }
+        });
       }
 
-      const sortedArchetypes = Object.entries(archetypeScores).sort((a, b) => a[1] - b[1]);
-      const bestArchetype = sortedArchetypes[0][0];
-      const bestDist = sortedArchetypes[0][1];
-      const runnerUpDist = sortedArchetypes.length > 1 ? sortedArchetypes[1][1] : bestDist;
-
-      const denominator = config.assessment.confidenceSeparationDenominator || 18;
-      const rawConfidence = (runnerUpDist - bestDist) / denominator;
-      const confidence = Math.max(0, Math.min(1, rawConfidence));
-
-      return {
-        raw,
-        normalized,
-        archetypeScores,
-        bestArchetype,
-        confidence,
-      };
-    }
-
-    function updateScoreboard() {
-      const scoring = calculateScoring();
-      if (!scoring) {
-        DOM.archetypeName.textContent = '—';
-        DOM.confidenceLabel.textContent = '—';
-        return;
-      }
-
-      const archetype = (prototypes.archetypes || []).find(a => a.id === scoring.bestArchetype);
-      if (archetype) {
-        DOM.archetypeName.textContent = archetype.name;
-        DOM.archetypeSubtitle.textContent = archetype.description || '';
-      }
-
-      const confidencePercent = Math.round(scoring.confidence * 100);
-      DOM.confidenceFill.style.width = confidencePercent + '%';
-      DOM.confidenceLabel.textContent = confidencePercent + '%';
-
-      const baseAnswered = baseItems.filter(item => responses.hasOwnProperty(item.id)).length;
-      DOM.progressText.textContent = `${baseAnswered} / ${baseItems.length}`;
-      DOM.followupCount.textContent = followupQueue.length;
-
-      DOM.subfactorList.innerHTML = '';
-      for (const [key, value] of Object.entries(scoring.normalized)) {
-        const item = document.createElement('div');
-        item.className = 'subfactor-item';
-        item.innerHTML = `<span class="subfactor-key">${key}</span><span class="subfactor-value">${Math.round(value)}</span>`;
-        DOM.subfactorList.appendChild(item);
-      }
-    }
-
-    function finishAssessment() {
-      assessmentStarted = false;
-      currentItemIndex = 0;
-      followupQueue = [];
-
-      // Add completion message
-      addBotMessage("Thank you for completing the assessment. Analyzing your responses...");
-
-      const finalScoring = calculateScoring();
-      if (finalScoring) {
-        const archetype = (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype);
-        const confidence = Math.round(finalScoring.confidence * 100);
-        
-        setTimeout(() => {
-          addBotMessage(`Based on your responses, your primary archetype is: **${archetype?.name || 'Unknown'}** (${confidence}% confidence).`);
-          addBotMessage(`${archetype?.description || ''}`);
-          addBotMessage("You can reset and take the assessment again, or export your results.");
-        }, 800);
-      } else {
-        addBotMessage('Assessment complete!');
-      }
-
-      // Keep input visible but disabled for now
-      DOM.userInput.disabled = true;
-      DOM.sendBtn.disabled = true;
-      saveToLocalStorage();
-    }
-
-    function handleReset() {
-      if (confirm('Reset assessment and clear all responses?')) {
-        responses = {};
-        currentItemIndex = 0;
-        assessmentStarted = false;
-        followupQueue = [];
-        currentScoring = null;
-        localStorage.removeItem(config.storage.storageKey);
-        DOM.chatMessages.innerHTML = '';
-        DOM.userInput.disabled = false;
-        DOM.sendBtn.disabled = false;
-        updateScoreboard();
-        addBotMessage(`Welcome back to the ${config.app.name}!`);
-        addBotMessage(`Type "start" to begin a new assessment.`);
-      }
-    }
-
-    function handleExport() {
-      if (!config.ui.allowJsonExport) return;
-
-      const finalScoring = calculateScoring();
-      const archetype = finalScoring ? (prototypes.archetypes || []).find(a => a.id === finalScoring.bestArchetype) : null;
-
-      const exportData = {
-        timestamp: new Date().toISOString(),
-        appVersion: config.app.version,
-        responses,
-        scoring: finalScoring ? {
-          raw: finalScoring.raw,
-          normalized: finalScoring.normalized,
-          bestArchetype: finalScoring.bestArchetype,
-          archetypeName: archetype?.name || 'Unknown',
-          confidence: Math.round(finalScoring.confidence * 100),
-        } : null,
-      };
-
-      const dataStr = JSON.stringify(exportData, null, 2);
-      const blob = new Blob([dataStr], {type: 'application/json'});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `eros-index-${Date.now()}.json`;
-      link.click();
-      URL.revokeObjectURL(url);
-    }
-
-    initializeApp();
+      app.addMessage('Welcome to the Eros Index Assessment. Type "start" to begin.', false);
+    });
   </script>
 </body>
 </html>
