@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "archetypes": [
+    "Conquistador","Siren","Magistrate","Devotee","Paladin","Oracle",
+    "Jester","Muse","Shaman","Oasis","Tyrant","Martyr"
+  ],
+  "prototypes": {
+    "Conquistador": { "IND": 80, "ENG": 75, "FLIGHT": 65, "CONTROL": 60, "LOYTHR": 35, "DES_NOVEL": 80, "DES_ATTACH": 35, "PWR_LEAD": 65 },
+    "Siren": { "ABD": 80, "ENM": 65, "AROUSAL_VALID": 85, "DES_ATTACH": 70, "MIRROR": 65, "FREEZE": 55, "FIGHT": 55 }
+  }
+}
