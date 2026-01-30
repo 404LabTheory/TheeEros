@@ -1,0 +1,20 @@
+let ITEMS = [];
+let FOLLOWUPS = [];
+let ARCHETYPES = [];
+let PROTOTYPES = {};
+let scaleLabel = "1=Strongly Disagree … 7=Strongly Agree";
+
+async function loadData() {
+  const cfg = await fetch("./data/config.json").then(r=>r.json());
+  const instrument = await fetch("./data/" + cfg.activeInstrument).then(r=>r.json());
+  const protos = await fetch("./data/" + cfg.activePrototypes).then(r=>r.json());
+
+  scaleLabel = instrument.scaleLabel || scaleLabel;
+  ITEMS = instrument.items || [];
+  FOLLOWUPS = instrument.followups || [];
+  ARCHETYPES = protos.archetypes || [];
+  PROTOTYPES = protos.prototypes || {};
+
+  // optional config knobs you referenced earlier
+  window.__CFG__ = cfg;
+}
