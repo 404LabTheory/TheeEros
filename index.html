@@ -89,4 +89,10 @@ function scoreArchetype() {
    AFTER function init() { ... } exists.
    ======================= */
 
-loadData().then(() => init());
+loadData()
+  .then(() => init())
+  .catch(err => {
+    console.error(err);
+    addMsg("bot", `<div><b>Load error:</b> Could not load JSON files. Check that /data/config.json exists and GitHub Pages is serving it.</div>`);
+  });
+
